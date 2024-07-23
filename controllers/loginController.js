@@ -95,7 +95,7 @@ const loginController = async (req, res) => {
 
         // Resets the login attempts and updates the login time
         user.loginAttempts = 0;
-        user.lastLogin = Date.now;
+        user.lastLogin = Date.now();
         await user.save();
 
         return res.status(200).json({
