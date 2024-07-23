@@ -1,6 +1,7 @@
 const User                 = require("../models/User");
 const { validationResult } = require('express-validator');
 const argon2               = require('argon2');
+const mongoose             = require('mongoose');
 
 const updateUserInfoController = async (req, res) => {
 
@@ -21,6 +22,13 @@ const updateUserInfoController = async (req, res) => {
 
         // Get the user id from the request params
         const { userId } = req.params;
+
+        // Validate userId
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).json({
+                message: 'Invalid user ID'
+            });
+        }
 
         // Get the updates from the request body
         const { firstName, lastName, username, password, newPassword } = req.body;
