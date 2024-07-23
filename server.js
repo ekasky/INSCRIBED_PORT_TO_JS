@@ -4,6 +4,7 @@ const express             = require('express');
 const mongoose            = require('mongoose');
 const { router }          = require('./routes/router');
 const bodyParser          = require('body-parser');
+const path                = require('path');
 
 const app = express();
 
@@ -30,7 +31,8 @@ app.use('/api', router);
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));  // or '../client/dist/index.html' if using Vite
-  });
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+});
+
 
 app.listen(process.env.PORT, () => console.log(`Server is listening on port ${process.env.PORT}`));
