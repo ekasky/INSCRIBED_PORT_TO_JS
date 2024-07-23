@@ -2,8 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 /* Controllers */
-const { registerController, validateRegister } = require('../controllers/registerController');
+const { registerController } = require('../controllers/registerController');
 
+/* Validators */
+const { validateRegister }   = require('../validators/registerValidator');
  
 const router = express.Router();
 

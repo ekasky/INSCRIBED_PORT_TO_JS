@@ -3,6 +3,7 @@ require('dotenv').config();
 const express             = require('express');
 const mongoose            = require('mongoose');
 const { router }          = require('./routes/router');
+const bodyParser          = require('body-parser');
 
 const app = express();
 
@@ -17,6 +18,10 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
     console.log(`Error while connecting to MongoDB: ${error}`);
 
 });
+
+// Middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // API Routes
 app.use('/api', router);
