@@ -20,7 +20,7 @@ const resetPasswordController = async (req, res) => {
         }
 
         // Validate the json web token
-        const decoded = jwt.decode(token, process.env.RESET_PASSWORD_SECRET);
+        const decoded = jwt.verify(token, process.env.RESET_PASSWORD_SECRET);
 
         // Find the user associated with the userID from the token
         const user = await User.findById(decoded.userId);
