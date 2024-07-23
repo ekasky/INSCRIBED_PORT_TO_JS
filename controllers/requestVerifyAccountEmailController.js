@@ -36,6 +36,15 @@ const requestVerifyAccountEmailController = async (req, res) => {
 
         }
 
+        // Do not send a email if the account is already verified
+        if(user.accountVerified) {
+
+            return res.status(400).json({
+                message: 'Account already verified'
+            });
+
+        }
+
         // Set up a nodemailer transporter
         const transporter = nodemailer.createTransport({
             
@@ -62,7 +71,7 @@ const requestVerifyAccountEmailController = async (req, res) => {
         );
 
         // Create the verify url
-        const url = `${process.env.FRONTEND_URL}/verify-account?token=${token}`;
+        const url = `${process.env.FRONTEND_URL}/api/verify-account?token=${token}`;
         
         // Create the mail message
         const mailOptions = {
@@ -98,8 +107,6 @@ const requestVerifyAccountEmailController = async (req, res) => {
         return res.status(500).json({
             message: 'Server error. Please try again later.'
         });
-
-        return 
 
     }
 

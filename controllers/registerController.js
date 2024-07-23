@@ -75,7 +75,7 @@ const registerController = async (req, res) => {
         );
 
         // Create the verify url
-        const url = `${process.env.FRONTEND_URL}/verify-account?token=${token}`;
+        const url = `${process.env.FRONTEND_URL}/api/verify-account?token=${token}`;
         
         // Create the mail message
         const mailOptions = {

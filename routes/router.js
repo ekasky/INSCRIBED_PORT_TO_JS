@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const { registerController }                  = require('../controllers/registerController');
 const { loginController }                     = require('../controllers/loginController');
 const { requestVerifyAccountEmailController } = require('../controllers/requestVerifyAccountEmailController');
+const { verifyAccountController }             = require('../controllers/verifyAccountController');
 
 /* Validators */
 const { validateRegister }                   = require('../validators/registerValidator');
@@ -20,5 +21,6 @@ router.get('/test', (req, res) => res.status(200).json({ message: "Test" }));
 router.post('/register', validateRegister, registerController);
 router.post('/login', loginValidator, loginController);
 router.post('/send-verify-email', requestVerifyAccountEmailValidator, requestVerifyAccountEmailController);
+router.get('/verify-account', verifyAccountController);
 
 module.exports = { router };
