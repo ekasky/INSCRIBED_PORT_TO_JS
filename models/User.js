@@ -78,8 +78,8 @@ const userModel = new mongoose.Schema({
     },
 
     loginAttempts: {
-        type: Boolean,
-        default: false
+        type: Number,
+        default: 0
     }
 
 

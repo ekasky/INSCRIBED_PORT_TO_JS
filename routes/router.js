@@ -7,12 +7,14 @@ const { loginController }                     = require('../controllers/loginCon
 const { requestVerifyAccountEmailController } = require('../controllers/requestVerifyAccountEmailController');
 const { verifyAccountController }             = require('../controllers/verifyAccountController');
 const { sendPasswordResetEmailController }    = require('../controllers/sendPasswordResetEmailController');
+const { resetPasswordController }             = require('../controllers/resetPasswordController');
 
 /* Validators */
 const { validateRegister }                   = require('../validators/registerValidator');
 const { loginValidator }                     = require('../validators/loginValidator'); 
 const { requestVerifyAccountEmailValidator } = require('../validators/requestVerifyAccountEmailValidator');
 const { sendPasswordResetEmailValidator }    = require('../validators/sendPasswordResetEmailValidator');
+const { resetPasswordValidator }             = require('../validators/resetPasswordValidator');
 
 
 const router = express.Router();
@@ -25,5 +27,6 @@ router.post('/login', loginValidator, loginController);
 router.post('/send-verify-email', requestVerifyAccountEmailValidator, requestVerifyAccountEmailController);
 router.get('/verify-account', verifyAccountController);
 router.post('/send-password-reset-email', sendPasswordResetEmailValidator, sendPasswordResetEmailController)
+router.post('/reset-password', resetPasswordValidator, resetPasswordController);
 
 module.exports = { router };
