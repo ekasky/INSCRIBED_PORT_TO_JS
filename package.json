@@ -3,16 +3,21 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node server/server.js",
-    "heroku_postbuild": "npm run build",
-    "build": "cd server && npm install && npm run build && cd ../client && npm install && rm -rf build && npm run build",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
     "install:server": "cd server && npm install",
     "install:client": "cd client && npm install",
-    "dev": "cd client && npm run build && cd ../server && npm install && npm start"
+    "build:client": "cd client && npm run build",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\""
   },
   "engines": {
-    "node": "20.15.0",
-    "npm": "10.8.1"
+    "node": "22.5.1",
+    "npm": "10.8.2"
   },
   "author": "Evan Kasky",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.0.1"
+  }
 }

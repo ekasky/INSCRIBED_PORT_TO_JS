@@ -26,4 +26,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // API Routes
 app.use('/api', router);
 
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build/index.html'));  // or '../client/dist/index.html' if using Vite
+  });
+
 app.listen(process.env.PORT, () => console.log(`Server is listening on port ${process.env.PORT}`));
