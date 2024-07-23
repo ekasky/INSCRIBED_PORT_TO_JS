@@ -31,4 +31,4 @@ const isAuthenticated = (req, res, next) => {
     });
 };
 
-module.exports = authenticateToken;
+module.exports = { isAuthenticated };

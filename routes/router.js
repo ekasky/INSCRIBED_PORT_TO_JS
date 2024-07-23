@@ -1,6 +1,9 @@
 const express  = require('express');
 const mongoose = require('mongoose');
 
+/* Middlewares */
+const { isAuthenticated } = require('../middleware/isAuthenticated');
+
 /* Controllers */
 const { registerController }                  = require('../controllers/registerController');
 const { loginController }                     = require('../controllers/loginController');
@@ -9,6 +12,7 @@ const { verifyAccountController }             = require('../controllers/verifyAc
 const { sendPasswordResetEmailController }    = require('../controllers/sendPasswordResetEmailController');
 const { resetPasswordController }             = require('../controllers/resetPasswordController');
 const { updateUserInfoController }            = require('../controllers/updateUserInfoController');
+const { deleteUserController }                = require('../controllers/deleteUserController');
 
 /* Validators */
 const { validateRegister }                   = require('../validators/registerValidator');
@@ -32,5 +36,6 @@ router.get('/verify-account', verifyAccountController);
 router.post('/send-password-reset-email', sendPasswordResetEmailValidator, sendPasswordResetEmailController)
 router.post('/reset-password', resetPasswordValidator, resetPasswordController);
 router.patch('/user/update/:userId', updateUserInfoValidator, updateUserInfoController);
+router.delete('/user/delete/:userId', isAuthenticated, deleteUserController);
 
 module.exports = { router };
