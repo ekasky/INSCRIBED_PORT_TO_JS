@@ -53,8 +53,9 @@ const loginController = async (req, res) => {
 
             await user.save();
 
-            return res.status(403).json({
-                message: 'Too many login attempts. Please reset your password'
+
+            return res.status(401).json({
+                message: 'Incorrect Username or Password. Try Again.'
             });
 
         }
@@ -64,6 +65,15 @@ const loginController = async (req, res) => {
 
             return res.status(401).json({
                 message: 'Please verify your account before logging in'
+            });
+
+        }
+
+        // Check if the user account is locked
+        if(user.accountLocked) {
+
+            return res.status(403).json({
+                message: 'Too many login attempts. Please reset your password'
             });
 
         }
@@ -86,7 +96,7 @@ const loginController = async (req, res) => {
         // Resets the login attempts and updates the login time
         user.loginAttempts = 0;
         user.lastLogin = Date.now;
-        await user.save;
+        await user.save();
 
         return res.status(200).json({
             message: 'Login Successful',
