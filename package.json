@@ -1,26 +1,27 @@
 {
-  "name": "inscribed",
+  "name": "server",
   "version": "1.0.0",
+  "main": "server.js",
   "scripts": {
-    "start": "node server/server.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
-    "install:server": "cd server && npm install",
-    "install:client": "cd client && npm install",
-    "build:client": "cd client && npm run build",
-    "dev:server": "cd server && npm run dev",
-    "dev:client": "cd client && npm run dev",
-    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\""
+    "test": "jest",
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
-  "engines": {
-    "node": "22.5.1",
-    "npm": "10.8.2"
-  },
-  "author": "Evan Kasky",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "concurrently": "^8.0.1"
-  },
+  "description": "",
   "dependencies": {
-    "dotenv": "^16.4.5"
+    "argon2": "^0.40.3",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-validator": "^7.1.0",
+    "mongoose": "^8.5.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.4",
+    "supertest": "^7.0.0"
   }
 }
