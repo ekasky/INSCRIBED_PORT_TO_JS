@@ -8,6 +8,7 @@ const { requestVerifyAccountEmailController } = require('../controllers/requestV
 const { verifyAccountController }             = require('../controllers/verifyAccountController');
 const { sendPasswordResetEmailController }    = require('../controllers/sendPasswordResetEmailController');
 const { resetPasswordController }             = require('../controllers/resetPasswordController');
+const { updateUserInfoController }            = require('../controllers/updateUserInfoController');
 
 /* Validators */
 const { validateRegister }                   = require('../validators/registerValidator');
@@ -15,6 +16,8 @@ const { loginValidator }                     = require('../validators/loginValid
 const { requestVerifyAccountEmailValidator } = require('../validators/requestVerifyAccountEmailValidator');
 const { sendPasswordResetEmailValidator }    = require('../validators/sendPasswordResetEmailValidator');
 const { resetPasswordValidator }             = require('../validators/resetPasswordValidator');
+const { updateUserInfoValidator }            = require('../validators/updateUserInfoValidator');
+
 
 
 const router = express.Router();
@@ -28,5 +31,6 @@ router.post('/send-verify-email', requestVerifyAccountEmailValidator, requestVer
 router.get('/verify-account', verifyAccountController);
 router.post('/send-password-reset-email', sendPasswordResetEmailValidator, sendPasswordResetEmailController)
 router.post('/reset-password', resetPasswordValidator, resetPasswordController);
+router.patch('/user/update/:userId', updateUserInfoValidator, updateUserInfoController);
 
 module.exports = { router };
