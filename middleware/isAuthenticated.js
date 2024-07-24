@@ -1,6 +1,7 @@
-const jwt = require('jsonwebtoken');
+const jwt              = require('jsonwebtoken');
+const BlacklistedToken = require('../models/BlacklistToken');
 
-const isAuthenticated = (req, res, next) => {
+const isAuthenticated = async (req, res, next) => {
 
     // Get the token from the authorization header
     const authHeader = req.headers['authorization'];
@@ -13,6 +14,15 @@ const isAuthenticated = (req, res, next) => {
             message: 'Access token is missing or invalid'
         });
 
+    }
+
+    // Check to see if the token is blacklisted
+    const blacklistedToken = await BlacklistedToken.findOne({ token });
+
+    if (blacklistedToken) {
+        return res.status(401).json({
+            message: 'Login token is invalid'
+        });
     }
 
     // Verify the token
