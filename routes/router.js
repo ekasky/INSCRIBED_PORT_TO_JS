@@ -22,6 +22,7 @@ const { unlikePostController }                = require('../controllers/unlikePo
 const { deleteCommentController }             = require('../controllers/deleteCommentController');
 const { forYouFeedController }                = require('../controllers/forYouFeedController');
 const { discoverFeedController }              = require('../controllers/discoverFeedController');
+const { followUserController }                = require('../controllers/followUserController');
 
 /* Validators */
 const { validateRegister }                   = require('../validators/registerValidator');
@@ -53,6 +54,7 @@ router.delete('/user/delete/:userId', isAuthenticated, deleteUserController);
 router.get('/user/:userId/posts', isAuthenticated, getUsersPostsController);
 router.get('/for-you-feed', isAuthenticated, forYouFeedController);
 router.get('/discover-feed', isAuthenticated, discoverFeedController);
+router.post('/users/follow/:userId', isAuthenticated, followUserController);
 
 /* Post Routes */
 router.post('/post', isAuthenticated, createNewPostValidator, createNewPostController);
