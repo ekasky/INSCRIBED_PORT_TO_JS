@@ -30,8 +30,15 @@ const updateUserInfoController = async (req, res) => {
             });
         }
 
+        // Ensure the user is authorized to update this profile
+        if (req.user.userId !== userId) {
+            return res.status(403).json({
+                message: 'Unauthorized: You can only update your own profile'
+            });
+        }
+
         // Get the updates from the request body
-        const { firstName, lastName, username, password, newPassword } = req.body;
+        const { firstName, lastName, username, password, newPassword, profilePic } = req.body;
 
         // Find the user from the id provided in the request
         const user = await User.findById(userId);
@@ -88,6 +95,11 @@ const updateUserInfoController = async (req, res) => {
         if(firstName !== undefined) user.firstName = firstName;
         if(lastName !== undefined) user.lastName = lastName;
         if(username !== undefined) user.username = username;
+        if(profilePic !== undefined) user.profilePic = profilePic;
+
+        // Save the updated user to the database
+        await user.save();
+
 
         // Return a success message
         return res.status(200).json({

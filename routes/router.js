@@ -27,6 +27,7 @@ const { unfollowUserController }              = require('../controllers/unfollow
 const { getFollowersController }              = require('../controllers/getFollowersController');
 const { getFollowingController }              = require('../controllers/getFollowingController');
 const { getUserController }                   = require('../controllers/getUserController');
+const { getPostWithCommentsController }       = require('../controllers/getPostWithComments');
 
 /* Validators */
 const { validateRegister }                   = require('../validators/registerValidator');
@@ -53,7 +54,7 @@ router.post('/send-password-reset-email', sendPasswordResetEmailValidator, sendP
 router.post('/reset-password', resetPasswordValidator, resetPasswordController);
 
 /* User Routes */
-router.patch('/user/update/:userId', updateUserInfoValidator, updateUserInfoController);
+router.patch('/user/update/:userId', isAuthenticated, updateUserInfoValidator, updateUserInfoController);
 router.delete('/user/delete/:userId', isAuthenticated, deleteUserController);
 router.get('/user/:userId/posts', isAuthenticated, getUsersPostsController);
 router.get('/for-you-feed', isAuthenticated, forYouFeedController);
@@ -71,5 +72,6 @@ router.post('/posts/:postId/comment', isAuthenticated, createNewCommentValidator
 router.delete('/posts/:postId/delete', isAuthenticated, deletePostController);
 router.delete('/posts/:postId/unlike', isAuthenticated, unlikePostController);
 router.delete('/posts/:postId/comments/:commentId/delete', isAuthenticated, deleteCommentController);
+router.get('/posts/:postId', isAuthenticated, getPostWithCommentsController);
 
 module.exports = { router };
