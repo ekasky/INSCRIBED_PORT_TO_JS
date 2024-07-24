@@ -1,10 +1,26 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
+/* Pages */
+import LoginPage from './pages/LoginPage';
 
 
 export default function App() {
 
   return (
-    <h1>App</h1>
+    
+    <BrowserRouter>
+
+      <Routes>
+
+
+        <Route path='/' element={<LoginPage />} />
+
+        <Route path='*' element={<>Not Found</>} />
+        
+      </Routes>
+
+    </BrowserRouter>
+
   );
 
 }
