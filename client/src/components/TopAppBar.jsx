@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
-import { AppBar, Toolbar, IconButton, Typography, InputBase, Avatar, Box } from '@mui/material';
+import React, { useContext, useState } from 'react';
+import { AppBar, Toolbar, IconButton, Typography, InputBase, Avatar, Box, Menu, MenuItem } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 import { styled, alpha } from '@mui/material/styles';
 import { AuthContext } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -44,7 +45,32 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function TopAppBar() {
 
-    const { user } = useContext(AuthContext);
+    const { user, logout } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+
+    const handleAvatarClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleLogout = () => {
+
+        handleMenuClose();
+        logout(navigate);
+
+    };
+
+    const handleSettings = () => {
+
+        handleMenuClose();
+        navigate('/settings');
+
+    };
 
     return (
 
@@ -61,7 +87,7 @@ export default function TopAppBar() {
                     <SearchIconWrapper>
                         <SearchIcon />
                     </SearchIconWrapper>
-                    
+
                     <StyledInputBase
                         placeholder="Search…"
                         inputProps={{ 'aria-label': 'search' }}
@@ -79,13 +105,32 @@ export default function TopAppBar() {
 
                     <Typography>{user ? user.username : '...Fetching'}</Typography>
                     
-                    <IconButton color="inherit">
+                    <IconButton color="inherit" onClick={handleAvatarClick}>
                         <Avatar alt={user ? user.username : 'user'} src={user ? user.profilePic : ''} />
                     </IconButton>
 
                 </Box>
 
             </Toolbar>
+
+            {/* Menu options */}
+            <Menu
+                id="avatar-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleMenuClose}
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                }}
+            >
+                <MenuItem onClick={handleSettings}>Settings</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </Menu>
 
         </AppBar>
     );

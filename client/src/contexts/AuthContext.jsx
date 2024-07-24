@@ -5,61 +5,63 @@ import { useNavigate } from 'react-router-dom';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+    
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const checkUser = async () => {
+        
+        checkUser();
+
+    }, []);
+
+    const checkUser = async () => {
             
-            // Get the use token from localstrage
-            const token = localStorage.getItem('token');
-            
-            // If not found, exit function
-            if (!token) {
+        // Get the use token from localstrage
+        const token = localStorage.getItem('token');
+        
+        // If not found, exit function
+        if (!token) {
+            setLoading(false);
+            return;
+        }
+
+        try {
+
+            // Make api call to get user info
+            const response = await fetch('/api/user', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            // If the info was not reterived successfully, remove the login token
+
+            if (!response.ok) {
+                localStorage.removeItem('token');
                 setLoading(false);
                 return;
             }
 
-            try {
+            // Get the user data
+            const data = await response.json();
+            setUser(data.user);
 
-                // Make api call to get user info
-                const response = await fetch('/api/user', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
+        } 
+        
+        catch (error) {
 
-                // If the info was not reterived successfully, remove the login token
-
-                if (!response.ok) {
-                    localStorage.removeItem('token');
-                    setLoading(false);
-                    return;
-                }
-
-                // Get the user data
-                const data = await response.json();
-                setUser(data.user);
-
-            } 
+            console.error('Failed to fetch user:', error);
             
-            catch (error) {
+        } 
+        
+        finally {
 
-                console.error('Failed to fetch user:', error);
-                
-            } 
-            
-            finally {
+            setLoading(false);
 
-                setLoading(false);
+        }
 
-            }
-
-        };
-
-        checkUser();
-
-    }, []);
+    };
 
     const login = async (data, navigate) => {
 
@@ -87,6 +89,7 @@ export const AuthProvider = ({ children }) => {
             // Add the token to localstroage, and naviagte to home
             localStorage.setItem('token', result.token);
             setUser(result.user);
+            await checkUser();
             navigate('/home');
 
         } 
