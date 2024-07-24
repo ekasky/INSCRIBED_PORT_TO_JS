@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import InfiniteScrollFeed from "../components/InfiniteScrollFeed";
 import TopAppBar from "../components/TopAppBar";
-import { Box, ButtonGroup, Button, Fab, Dialog, DialogTitle, DialogContent, TextField, DialogActions, CircularProgress } from '@mui/material';
+import { Box, ButtonGroup, Button, Fab, Dialog, DialogTitle, DialogContent, TextField, DialogActions, CircularProgress, Snackbar, Alert } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
 import { AuthContext } from '../contexts/AuthContext';
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,9 @@ export default function HomePage() {
     const [currentFeed, setCurrentFeed] = useState('forYou');
     const [open, setOpen] = useState(false);
     const [newPostContent, setNewPostContent] = useState('');
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
     const navigate = useNavigate();
     
@@ -38,6 +41,39 @@ export default function HomePage() {
     if (!user) {
         logout(navigate);
     }
+
+    const handlePostSubmit = async () => {
+
+        const token = localStorage.getItem('token');
+
+        // Make an API call to create a new post
+        const response = await fetch('/api/post', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({ content: newPostContent }),
+        });
+
+        if (response.ok) {
+
+            // Refresh the feed after posting
+            setNewPostContent('');
+            setOpen(false);
+            setSnackbarMessage('Post created successfully!');
+            setSnackbarSeverity('success');
+            setSnackbarOpen(true);
+
+        } 
+        
+        else {
+            
+            setSnackbarMessage('Failed to create post');
+            setSnackbarSeverity('error');
+            setSnackbarOpen(true);
+        }
+    };
 
     return (
         <Box>
@@ -93,11 +129,29 @@ export default function HomePage() {
                         <Button onClick={() => setOpen(false)} color="secondary">
                             Cancel
                         </Button>
-                        <Button onClick={() => {}} color="primary">
+                        <Button onClick={handlePostSubmit} color="primary">
                             Post
                         </Button>
                     </DialogActions>
                 </Dialog>
+
+                {/* Snackbar for new post message response */}
+                
+                <Snackbar 
+                    open={snackbarOpen} 
+                    autoHideDuration={6000} 
+                    onClose={() => setSnackbarOpen(false)}
+                >
+
+                    <Alert 
+                        onClose={() => setSnackbarOpen(false)} 
+                        severity={snackbarSeverity}
+                        sx={{ width: '100%' }}
+                    >
+                        {snackbarMessage}
+                    </Alert>
+                    
+                </Snackbar>
 
             </Box>
         </Box>
