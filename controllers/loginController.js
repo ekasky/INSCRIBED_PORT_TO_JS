@@ -36,6 +36,15 @@ const loginController = async (req, res) => {
 
         }
 
+        // Check if the user account is locked
+        if(user.accountLocked) {
+
+            return res.status(403).json({
+                message: 'Too many login attempts. Please reset your password'
+            });
+
+        }
+
         // Check to see if the password provided matches the password on file
         const passwordsMatch = await argon2.verify(user.password, password);
 
@@ -65,15 +74,6 @@ const loginController = async (req, res) => {
 
             return res.status(401).json({
                 message: 'Please verify your account before logging in'
-            });
-
-        }
-
-        // Check if the user account is locked
-        if(user.accountLocked) {
-
-            return res.status(403).json({
-                message: 'Too many login attempts. Please reset your password'
             });
 
         }
