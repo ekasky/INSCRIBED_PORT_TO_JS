@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { AppBar, Toolbar, IconButton, Typography, InputBase, Avatar, Box } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 import { styled, alpha } from '@mui/material/styles';
+import { AuthContext } from '../contexts/AuthContext';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -43,34 +44,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function TopAppBar() {
 
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const response = await fetch('/api/user', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
-
-                if (response.ok) {
-                    const userData = await response.json();
-                    setUser(userData);
-                } else {
-                    console.error('Failed to fetch user data');
-                }
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-            }
-        };
-
-        fetchUser();
-    }, []);
-
-    console.log(user);
+    const { user } = useContext(AuthContext);
 
     return (
 
@@ -78,7 +52,7 @@ export default function TopAppBar() {
 
             <Toolbar>
 
-                <Typography variant="h6" noWrap component="div" sx={{mr: 5}}>
+                <Typography variant="h6" noWrap component="div" sx={{ mr: 5 }}>
                     Inscribed
                 </Typography>
 
@@ -87,7 +61,7 @@ export default function TopAppBar() {
                     <SearchIconWrapper>
                         <SearchIcon />
                     </SearchIconWrapper>
-
+                    
                     <StyledInputBase
                         placeholder="Search…"
                         inputProps={{ 'aria-label': 'search' }}
@@ -103,9 +77,10 @@ export default function TopAppBar() {
                     gap: 2
                 }}>
 
-                    <Typography>{user ? user.user.username : '...Fetching'}</Typography>
+                    <Typography>{user ? user.username : '...Fetching'}</Typography>
+                    
                     <IconButton color="inherit">
-                        <Avatar alt="user.name" src={user && user.user.profilePic} />
+                        <Avatar alt={user ? user.username : 'user'} src={user ? user.profilePic : ''} />
                     </IconButton>
 
                 </Box>
