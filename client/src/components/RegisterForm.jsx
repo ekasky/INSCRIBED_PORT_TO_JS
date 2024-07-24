@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Avatar, Box, Container, Grid, Link, Typography, TextField, Button } from '@mui/material';
+import { Alert, Avatar, Box, Container, Grid, Link, Typography, TextField, Button } from '@mui/material';
 import { LockOutlined } from '@mui/icons-material';
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
 
@@ -65,7 +65,7 @@ export default function RegisterForm() {
                 }
 
             }
-            
+
         } 
         
         catch (error) {
@@ -220,11 +220,9 @@ export default function RegisterForm() {
                         helperText={errors.password ? errors.password.message : ''}
                     />
                     
-                    {/* Display any server message */}
+                    {/* Disaply any server message */}
                     {serverMessage && (
-                        <Typography color="error" variant="body2" align="center">
-                            {serverMessage}
-                        </Typography>
+                        <Alert severity='error'>{serverMessage}</Alert>
                     )}
                     
                     {/* Form Submit Button */}
@@ -240,14 +238,21 @@ export default function RegisterForm() {
 
                     {/* Link to login */}
                     <Grid container justifyContent="flex-end">
+
                         <Grid item>
-                            <Link variant="body2" component={ReactRouterLink} to="/login" sx={{ textDecoration: 'none' }}>
+
+                            <Link variant="body2" component={ReactRouterLink} to="/" sx={{ textDecoration: 'none' }}>
                                 Already have an account? Sign in.
                             </Link>
+
                         </Grid>
+
                     </Grid>
+
                 </Box>
+
             </Box>
+
         </Container>
     );
 }
