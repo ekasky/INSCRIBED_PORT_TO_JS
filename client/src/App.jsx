@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 /* Pages */
 import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
 
 
         <Route path='/' element={<LoginPage />} />
+        <Route path='/register' element={<RegisterPage />} />
 
         <Route path='*' element={<>Not Found</>} />
         
