@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, Typography, IconButton, Box, Avatar } from '@mui/material';
 import { Favorite, FavoriteBorder, Delete } from '@mui/icons-material';
 import { formatDistanceToNow } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
 export default function PostCard ({ post, handleLike, handleUnlike, handleDelete, userId }) {
     
@@ -9,13 +10,25 @@ export default function PostCard ({ post, handleLike, handleUnlike, handleDelete
     const isOwner = post.author._id === userId;
     const likedByUser = post.likes.includes(userId);
 
+    const navigate = useNavigate();
+
     const handleCardClick = () => {
         navigate(`/post/${post._id}`);
+    };
+
+    const handleLikeClick = (event) => {
+        event.stopPropagation();
+        likedByUser ? handleUnlike(post._id) : handleLike(post._id);
+    };
+
+    const handleDeleteClick = (event) => {
+        event.stopPropagation();
+        handleDelete(post._id);
     };
     
     return (
 
-        <Card sx={{ marginBottom: 2, cursor: 'pointer' }}>
+        <Card sx={{ marginBottom: 2, cursor: 'pointer' }} onClick={handleCardClick}>
 
             <CardContent>
 
@@ -41,7 +54,7 @@ export default function PostCard ({ post, handleLike, handleUnlike, handleDelete
                     {/* Use the current like state to determine what version and function to call when showing like/unlike buton */}
                     <IconButton
                         color="primary"
-                        onClick={() => (likedByUser ? handleUnlike(post._id) : handleLike(post._id))}
+                        onClick={handleLikeClick}
                     >
                         {likedByUser ? <Favorite /> : <FavoriteBorder />}
                     </IconButton>
@@ -49,7 +62,7 @@ export default function PostCard ({ post, handleLike, handleUnlike, handleDelete
                     {/* If the user is the owner of the post, show the delete button */}
                     
                     {isOwner && (
-                        <IconButton color="secondary" onClick={() => handleDelete(post._id)}>
+                        <IconButton color="secondary" onClick={handleDeleteClick}>
                             <Delete />
                         </IconButton>
                     )}

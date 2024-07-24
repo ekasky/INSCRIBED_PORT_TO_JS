@@ -7,6 +7,7 @@ export default function InfiniteScrollFeed({ apiEndpoint, userId }) {
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         setPosts([]);
@@ -17,9 +18,10 @@ export default function InfiniteScrollFeed({ apiEndpoint, userId }) {
 
     /* Function to fetch posts */
     const fetchPosts = async (pageNumber) => {
+        if (loading) return; // Prevent simultaneous fetches
+        setLoading(true);
         
         try {
-
             // Get the user login token from localstorage
             const token = localStorage.getItem('token');
 
@@ -46,20 +48,15 @@ export default function InfiniteScrollFeed({ apiEndpoint, userId }) {
             }
 
             // Add the posts to the post state
-            setPosts((prevPosts) => [...prevPosts, ...data.posts]);
-
+            setPosts((prevPosts) => pageNumber === 1 ? data.posts : [...prevPosts, ...data.posts]);
         } 
         catch (error) {
-
             console.error('Error fetching posts:', error);
-
+        } 
+        finally {
+            setLoading(false);
         }
     };
-
-    // Fetch the posts when we need a new page
-    useEffect(() => {
-        fetchPosts(page);
-    }, [page, apiEndpoint]);
 
     // Function to increment to page by 1
     const fetchMoreData = () => {
@@ -68,9 +65,7 @@ export default function InfiniteScrollFeed({ apiEndpoint, userId }) {
 
     // Handles the like post button 
     const handleLike = async (postId) => {
-
         try {
-
             // Get the user login token from the localstorage
             const token = localStorage.getItem('token');
             
@@ -81,34 +76,25 @@ export default function InfiniteScrollFeed({ apiEndpoint, userId }) {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
                 },
-
             });
 
             // If we were abel to like the post update the current posts state in the feed to relfect the new change
             if (response.ok) {
-
                 setPosts((prevPosts) =>
                     prevPosts.map((post) =>
                         post._id === postId ? { ...post, likes: [...post.likes, userId] } : post
                     )
-                    
                 );
             }
         } 
-        
         catch (error) {
-
             console.error('Error liking post:', error);
-
         }
     };
 
     // Function to handle unliking a post
-
     const handleUnlike = async (postId) => {
-
         try {
-
             // Get the user login token from the localstorage
             const token = localStorage.getItem('token');
 
@@ -121,30 +107,23 @@ export default function InfiniteScrollFeed({ apiEndpoint, userId }) {
                 },
             });
 
-            // If we succressfully unliked the post, update the current post state to reflect the changes
+            // If we successfully unliked the post, update the current post state to reflect the changes
             if (response.ok) {
-
                 setPosts((prevPosts) =>
                     prevPosts.map((post) =>
                         post._id === postId ? { ...post, likes: post.likes.filter((like) => like !== userId) } : post
                     )
                 );
-
             }
         } 
-        
         catch (error) {
-
             console.error('Error unliking post:', error);
-
         }
     };
 
     // Function to handle deleting a post
     const handleDelete = async (postId) => {
-
         try {
-
             // Get the user login token from the localstorage
             const token = localStorage.getItem('token');
 
@@ -159,41 +138,33 @@ export default function InfiniteScrollFeed({ apiEndpoint, userId }) {
 
             // If the post was deleted successfully, remove the post from the current feed
             if (response.ok) {
-
                 setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
-            
             }
         } 
-        
         catch (error) {
-
             console.error('Error deleting post:', error);
-            
         }
     };
 
     return (
         <Box sx={{ padding: 2 }}>
-
             <InfiniteScroll
                 dataLength={posts.length}
                 next={fetchMoreData}
                 hasMore={hasMore}
-                loader={<CircularProgress />}
+                loader={loading && hasMore ? <CircularProgress /> : null}
                 endMessage={<Typography variant="body2">You have seen all posts.</Typography>}
             >
-
                 {posts.map((post) => (
                     <PostCard
                         key={post._id}
                         post={post}
-                        handleLike={() => {}}
-                        handleUnlike={() => {}}
-                        handleDelete={() => {}}
+                        handleLike={handleLike}
+                        handleUnlike={handleUnlike}
+                        handleDelete={handleDelete}
                         userId={userId}
                     />
                 ))}
-                
             </InfiniteScroll>
         </Box>
     );
