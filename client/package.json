@@ -14,9 +14,11 @@
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.16.4",
     "@mui/material": "^5.16.4",
+    "date-fns": "^3.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.52.1",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-router-dom": "^6.25.1",
     "validator": "^13.12.0",
     "zxcvbn": "^4.4.2"
