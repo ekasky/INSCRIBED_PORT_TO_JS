@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
 const Post                 = require('../models/Post');
+const User                 = require('../models/User');
 
 const createNewPostController = async (req, res) => {
 
@@ -30,6 +31,17 @@ const createNewPostController = async (req, res) => {
 
         // Save the post to the database
         await newPost.save();
+
+        // Push the id to the users doc
+        const user = await User.findById(req.user.userId);
+
+        if (!user) {
+            return res.status(404).json({
+                message: 'User not found'
+            });
+        }
+        user.posts.push(newPost._id);
+        await user.save();
 
         // Return success response
         return res.status(201).json({
