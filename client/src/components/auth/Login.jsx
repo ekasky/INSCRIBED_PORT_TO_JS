@@ -1,8 +1,24 @@
 import { Center, Box, Heading, FormControl, FormLabel, Input, FormErrorMessage, Button, Link, Text } from "@chakra-ui/react";
-import { Link as RouterLink } from "react-router-dom";
-import { LOGIN, REGISTER } from "../../lib/routes";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { DASHBOARD, LOGIN, REGISTER } from "../../lib/routes";
+import { useLogin } from "../../hooks/useLogin";
+import { useForm } from 'react-hook-form';
+import { usernameValidate, passwordValidate } from '../../util/form-validate';
 
 export default function Login() {
+
+    /* Use the custom login hook */
+    const { login, isLoading } = useLogin();
+
+    /* Use the useForm hook from react-hook-forms for input validation */
+    const { register, handleSubmit, formState: { errors }} = useForm();
+
+    /* Function to handle login submit */
+    const handleLogin = async (data) => {
+        
+        const success = await login({ username: data.username, password: data.password, redirectTo: DASHBOARD });
+
+    };
 
     return (
         
@@ -12,27 +28,27 @@ export default function Login() {
 
                 <Heading mb="4" textAlign='center'>Login</Heading>
 
-                <form onSubmit={() => {}}>
+                <form onSubmit={handleSubmit(handleLogin)}>
 
                     {/* Username Input */}
-                    <FormControl py='2' isInvalid={true}>
+                    <FormControl py='2' isInvalid={errors.username}>
 
                         <FormLabel>Username</FormLabel>
-                        <Input type="text" placeholder="Username" />
-                        <FormErrorMessage>Username is required</FormErrorMessage>
+                        <Input type="text" placeholder="Username" {...register('username', usernameValidate)} />
+                        <FormErrorMessage>{errors.username && errors.username.message}</FormErrorMessage>
 
                     </FormControl>
 
                     {/* Password Input */}
-                    <FormControl py='2' isInvalid={true}>
+                    <FormControl py='2' isInvalid={errors.password}>
 
                         <FormLabel>Password</FormLabel>
-                        <Input type="password" placeholder="Password" />
-                        <FormErrorMessage>Password is required</FormErrorMessage>
+                        <Input type="password" placeholder="Password" {...register('password', passwordValidate)}/>
+                        <FormErrorMessage>{ errors.password && errors.password.message }</FormErrorMessage>
 
                     </FormControl>
 
-                    <Button mt="4" size='md' w='full' type="submit" colorScheme='blue' isLoading={true} loadingText="Logging In">
+                    <Button mt="4" size='md' w='full' type="submit" colorScheme='blue' isLoading={isLoading} loadingText="Logging In">
                         Login
                     </Button>
 

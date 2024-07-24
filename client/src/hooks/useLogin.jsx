@@ -1,33 +1,24 @@
+import { useState } from 'react';
 import { useToast } from '@chakra-ui/react';
-import HOME from '../lib/routes';
-import { body } from 'express-validator';
 import { useNavigate } from 'react-router-dom';
+import { DASHBOARD } from '../lib/routes';
 
 export function useLogin() {
-
-    /* Define State */
     const [loading, setLoading] = useState(false);
-
-    /* Use the naviate hook to redirect users */
+    const toast = useToast();
     const navigate = useNavigate();
 
-    // Use the toast hook from charkra
-    // this will be used to show messages
-    // returned by the response
-    const toast = useToast();
-    
-    // Define a function to login a user
-    // by calling the /api/login endpoint
-    const login = async({ username, password, redirectTo=HOME }) => {
+    const login = async ({ username, password, redirectTo = DASHBOARD }) => {
 
-        // while making the login request set the loading state
-        // to true as the request is being processed
+        // While making the request set the loading
+        // state to true allowing other components to
+        // know we are in the process of fetching
+        // from the api
         setLoading(true);
 
         try {
 
-            // Make a API call to try and
-            // sign in the user
+            // Make the api call to attempt to log the user in
             const response = await fetch('/api/login', {
                 method: 'POST',
                 headers: {
@@ -36,34 +27,37 @@ export function useLogin() {
                 body: JSON.stringify({ username, password }),
             });
 
-            // Get the data from the response
+            // Get the response data from the api call
             const data = await response.json();
 
-            // check if the the response was successful
-            // if they were set the toast to a success message
-            // store the token in storage, and redirect to 
-            // the home page
-            if(response.ok) {
-
+            // If the response is okay, set the toast to be success,
+            // set the token in localstroage, and redirect to the dashboard
+            // page
+            if (response.ok) {
                 toast({
                     title: 'Login Successful',
                     description: data.message,
                     status: 'success',
                     duration: 5000,
-                    isClosable: true
+                    isClosable: true,
+                    position: 'top',
                 });
 
                 localStorage.setItem('token', data.token);
+                
+                console.log('Navigating to:', redirectTo);
+                
+                setLoading(false);
 
                 navigate(redirectTo);
 
                 return true;
 
-            }
-
-            // If the response was not okay, set a error 
-            // message in the toast
-
+            } 
+            
+            // If there was a unsuccessful login attempt
+            // do not log in the user and set the toast to
+            // be an error
             else {
 
                 toast({
@@ -72,44 +66,31 @@ export function useLogin() {
                     status: 'error',
                     duration: 5000,
                     isClosable: true,
-                    position: 'top'
+                    position: 'top',
                 });
 
+                setLoading(false);
                 return false;
 
             }
-
-        }
-
-        catch(error) {
-
-            // Handle any unexptected errors
-            // that may occur by setting a 
-            // error message in the toast
+        } 
+        
+        // Catch any unexptected errors, set the toast to
+        // be an error, and do not log the user in
+        catch (error) {
             toast({
-                title: 'An error occured',
+                title: 'An error occurred',
                 description: 'Server Error. Please try later.',
                 status: 'error',
                 duration: 5000,
                 isClosable: true,
-                position: 'top'
+                position: 'top',
             });
 
-            return false;
-
-        }
-
-        finally {
-
-            // When we are done with the request
-            // make sure we set the loading state to 
-            // be false
             setLoading(false);
-
+            return false;
         }
-
     };
 
-    return { login: login, isLoading: loading };
-
+    return { login, isLoading: loading };
 }

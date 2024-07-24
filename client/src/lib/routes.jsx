@@ -11,7 +11,7 @@ export const LOGIN    = '/login';
 export const REGISTER = '/register';
 
 export const PROTECTED = '/protected';
-export const HOME     = '/protected/home';
+export const DASHBOARD = '/protected/dashboard';
 
 export const router = createBrowserRouter([
   
@@ -19,7 +19,7 @@ export const router = createBrowserRouter([
     { path: LOGIN, element: <Login /> },
     { path: REGISTER, element: <Register /> },
     { path: PROTECTED, element: <Layout />, children: [{
-        path: HOME, element: "Dashboard"
+        path: DASHBOARD, element: <Dashboard />
     }] }
 
 ]);
