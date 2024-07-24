@@ -26,6 +26,7 @@ const { followUserController }                = require('../controllers/followUs
 const { unfollowUserController }              = require('../controllers/unfollowUserController');
 const { getFollowersController }              = require('../controllers/getFollowersController');
 const { getFollowingController }              = require('../controllers/getFollowingController');
+const { getUserController }                   = require('../controllers/getUserController');
 
 /* Validators */
 const { validateRegister }                   = require('../validators/registerValidator');
@@ -61,6 +62,7 @@ router.post('/users/follow/:userId', isAuthenticated, followUserController);
 router.delete('/users/unfollow/:userId', isAuthenticated, unfollowUserController);
 router.get('/users/:userId/followers', isAuthenticated, getFollowersController);
 router.get('/users/:userId/following', isAuthenticated, getFollowingController);
+router.get('/user', isAuthenticated, getUserController);
 
 /* Post Routes */
 router.post('/post', isAuthenticated, createNewPostValidator, createNewPostController);
