@@ -6,14 +6,14 @@ import RegisterPage from './pages/RegisterPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import HomePage from './pages/HomePage';
-import { AuthContext } from './contexts/AuthContext';
+import { AuthProvider } from './contexts/AuthContext';
 
 
 export default function App() {
 
   return (
     
-    <AuthContext>
+    <AuthProvider>
       <BrowserRouter>
 
         <Routes>
@@ -25,14 +25,14 @@ export default function App() {
           <Route path='/reset-password' element={<ResetPasswordPage />}/>
 
           {/* Protected Routes */}
-          <Route path='/home' element={<HomePage />} />
+          {/* <Route path='/home' element={<HomePage />} /> */}
 
           <Route path='*' element={<>Not Found</>} />
           
         </Routes>
 
       </BrowserRouter>
-    </AuthContext>
+    </AuthProvider>
 
   );
 

@@ -1,67 +1,42 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Avatar, Box, Container, Grid, Link, Typography, TextField, Button, Alert } from '@mui/material';
 import { LockOutlined } from '@mui/icons-material';
 import { Link as ReactRouterLink, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext';
 
 export default function LoginForm() {
 
+    /* Define state */
     const { register, handleSubmit, formState: { errors, isValid } } = useForm({ mode: 'onChange' });
+    const { login } = useContext(AuthContext);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [serverMessage, setServerMessage] = useState('');
 
     const onSubmit = async (data) => {
-        
-        // While making the login requrst set the loading state to true
+
         setLoading(true);
+        setServerMessage('');
+
 
         try {
 
-            // Attempt to log the user in with the credentials
-            const response = await fetch('/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            });
+            await login(data, navigate);
 
-            // Get the response from the request
-            const result = await response.json();
+        } catch (error) {
 
-            // If it was okay, sign in the user
-            if (response.ok) {
+            setServerMessage(error.message);
 
-                setServerMessage('Login successful!');
-                localStorage.setItem('token', result.token);
-                navigate('/home');
-
-            } 
-            
-            else {
-
-                setServerMessage(result.message || 'Login failed');
-
-            }
-
-        } 
-
-        catch (error) {
-
-            setServerMessage('An error occurred. Please try again later.');
-
-        } 
-        
-        finally {
+        } finally {
 
             setLoading(false);
 
         }
-
     };
 
     return (
+
         <Container component="main" maxWidth="xs">
             
             <Box
@@ -77,7 +52,7 @@ export default function LoginForm() {
                 <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                     <LockOutlined />
                 </Avatar>
-                
+
                 {/* Form Title */}
                 <Typography component="h1" variant="h5">
                     Sign in
@@ -85,8 +60,8 @@ export default function LoginForm() {
 
                 {/* Login Form */}
                 <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
-                   
-                    {/* Username Input */}
+                    
+                    {/* Username input */}
                     <TextField
                         margin="normal"
                         required
@@ -134,13 +109,13 @@ export default function LoginForm() {
                         error={!!errors.password}
                         helperText={errors.password ? errors.password.message : ''}
                     />
-                    
-                    {/* Disaply any server message */}
+
+                    {/* Show any server response messages */}
                     {serverMessage && (
                         <Alert severity='error'>{serverMessage}</Alert>
                     )}
-                    
-                    {/* Form Submit Button */}
+
+                    {/* Submit button */}
                     <Button
                         type="submit"
                         fullWidth
@@ -151,11 +126,11 @@ export default function LoginForm() {
                         {loading ? 'Signing In...' : 'Sign In'}
                     </Button>
 
-                    {/* Links to reset password and register */}
+                    {/* Forgot password and register links */}
                     <Grid container>
 
                         <Grid item xs>
-                            
+
                             <Link variant="body2" component={ReactRouterLink} to="/forgot-password" sx={{ textDecoration: 'none' }}>
                                 Forgot Password
                             </Link>
@@ -175,7 +150,7 @@ export default function LoginForm() {
                 </Box>
 
             </Box>
-
+            
         </Container>
     );
 }
