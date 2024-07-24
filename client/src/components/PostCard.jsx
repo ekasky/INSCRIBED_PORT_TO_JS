@@ -57,7 +57,15 @@ export default function PostCard ({ post, handleLike, handleUnlike, handleDelete
                         onClick={handleLikeClick}
                     >
                         {likedByUser ? <Favorite /> : <FavoriteBorder />}
+
+                        {/* Number of likes */}
+                        <Typography variant="body2" color="textSecondary" sx={{ marginLeft: 1 }}>
+                            {post.likes.length}
+                        </Typography>
+
                     </IconButton>
+
+                    
 
                     {/* If the user is the owner of the post, show the delete button */}
                     
