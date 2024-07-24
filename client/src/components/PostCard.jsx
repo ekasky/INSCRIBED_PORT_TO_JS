@@ -12,23 +12,17 @@ export default function PostCard ({ post, handleLike, handleUnlike, handleDelete
 
     const navigate = useNavigate();
 
-    const handleCardClick = () => {
-        navigate(`/post/${post._id}`);
-    };
-
     const handleLikeClick = (event) => {
-        event.stopPropagation();
         likedByUser ? handleUnlike(post._id) : handleLike(post._id);
     };
 
     const handleDeleteClick = (event) => {
-        event.stopPropagation();
         handleDelete(post._id);
     };
     
     return (
 
-        <Card sx={{ marginBottom: 2, cursor: 'pointer' }} onClick={handleCardClick}>
+        <Card sx={{ marginBottom: 2 }}>
 
             <CardContent>
 

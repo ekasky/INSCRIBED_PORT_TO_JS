@@ -7,9 +7,6 @@ import RegisterPage from './pages/RegisterPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import HomePage from './pages/HomePage';
-import PostDetailsPage from './pages/PostDetailsPage';
-
-
 
 export default function App() {
 
@@ -28,7 +25,6 @@ export default function App() {
 
           {/* Protected Routes */}
           <Route path='/home' element={<HomePage />} />
-          <Route path='/post/:postId' element={<PostDetailsPage />} />
 
           <Route path='*' element={<>Not Found</>} />
           

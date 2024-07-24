@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Box, Typography, CircularProgress, Card } from '@mui/material';
 import PostCard from './PostCard';
+import PullToRefresh from 'react-pull-to-refresh';
 
 export default function InfiniteScrollFeed({ apiEndpoint, userId }) {
     const [posts, setPosts] = useState([]);
@@ -146,26 +147,41 @@ export default function InfiniteScrollFeed({ apiEndpoint, userId }) {
         }
     };
 
+    /* handle a page refresh */
+    const handleRefresh = async () => {
+        setPage(1);
+        setHasMore(true);
+        await fetchPosts(1);
+    };
+
     return (
         <Box sx={{ padding: 2 }}>
-            <InfiniteScroll
-                dataLength={posts.length}
-                next={fetchMoreData}
-                hasMore={hasMore}
-                loader={loading && hasMore ? <CircularProgress /> : null}
-                endMessage={<Typography variant="body2">You have seen all posts.</Typography>}
-            >
-                {posts.map((post) => (
-                    <PostCard
-                        key={post._id}
-                        post={post}
-                        handleLike={handleLike}
-                        handleUnlike={handleUnlike}
-                        handleDelete={handleDelete}
-                        userId={userId}
-                    />
-                ))}
-            </InfiniteScroll>
+
+            <PullToRefresh onRefresh={handleRefresh}>
+
+                <InfiniteScroll
+                    dataLength={posts.length}
+                    next={fetchMoreData}
+                    hasMore={hasMore}
+                    loader={loading && hasMore ? <CircularProgress /> : null}
+                    endMessage={<Typography variant="body2">You have seen all posts.</Typography>}
+                >
+                    {posts.map((post) => (
+                        <PostCard
+                            key={post._id}
+                            post={post}
+                            handleLike={handleLike}
+                            handleUnlike={handleUnlike}
+                            handleDelete={handleDelete}
+                            userId={userId}
+                        />
+                    ))}
+                </InfiniteScroll>
+
+            </PullToRefresh>
+                
+            
+
         </Box>
     );
 }
