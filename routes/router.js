@@ -14,6 +14,8 @@ const { resetPasswordController }             = require('../controllers/resetPas
 const { updateUserInfoController }            = require('../controllers/updateUserInfoController');
 const { deleteUserController }                = require('../controllers/deleteUserController');
 const { createNewPostController }             = require('../controllers/createNewPostController');
+const { getUsersPostsController }             = require('../controllers/getUsersPostsController');
+const { likePostController }                  = require('../controllers/likePostController');
 
 /* Validators */
 const { validateRegister }                   = require('../validators/registerValidator');
@@ -23,7 +25,7 @@ const { sendPasswordResetEmailValidator }    = require('../validators/sendPasswo
 const { resetPasswordValidator }             = require('../validators/resetPasswordValidator');
 const { updateUserInfoValidator }            = require('../validators/updateUserInfoValidator');
 const { createNewPostValidator }             = require('../validators/createNewPostValidator');
-const { getUsersPostsController } = require('../controllers/getUsersPostsController');
+
 
 
 
@@ -42,5 +44,6 @@ router.patch('/user/update/:userId', updateUserInfoValidator, updateUserInfoCont
 router.delete('/user/delete/:userId', isAuthenticated, deleteUserController);
 router.post('/post', isAuthenticated, createNewPostValidator, createNewPostController);
 router.get('/user/:userId/posts', isAuthenticated, getUsersPostsController);
+router.post('/posts/:postId/like', isAuthenticated, likePostController);
 
 module.exports = { router };
