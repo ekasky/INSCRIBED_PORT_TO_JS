@@ -33,7 +33,7 @@ export default function HomePage() {
                         <Button onClick={() => setCurrentFeed('discover')}>Discover</Button>
                     </ButtonGroup>
                 </Box>
-                <InfiniteScrollFeed apiEndpoint={getApiEndpoint()} userId={user._id} />
+                <InfiniteScrollFeed key={currentFeed} apiEndpoint={getApiEndpoint()} userId={user._id} />
             </Box>
         </Box>
     );
