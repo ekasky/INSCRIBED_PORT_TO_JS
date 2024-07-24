@@ -16,6 +16,7 @@ const { deleteUserController }                = require('../controllers/deleteUs
 const { createNewPostController }             = require('../controllers/createNewPostController');
 const { getUsersPostsController }             = require('../controllers/getUsersPostsController');
 const { likePostController }                  = require('../controllers/likePostController');
+const { createNewCommentController }          = require('../controllers/createNewCommentController');
 
 /* Validators */
 const { validateRegister }                   = require('../validators/registerValidator');
@@ -25,7 +26,7 @@ const { sendPasswordResetEmailValidator }    = require('../validators/sendPasswo
 const { resetPasswordValidator }             = require('../validators/resetPasswordValidator');
 const { updateUserInfoValidator }            = require('../validators/updateUserInfoValidator');
 const { createNewPostValidator }             = require('../validators/createNewPostValidator');
-
+const { createNewCommentValidator }          = require('../validators/createNewCommentValidator');
 
 
 
@@ -40,10 +41,15 @@ router.post('/send-verify-email', requestVerifyAccountEmailValidator, requestVer
 router.get('/verify-account', verifyAccountController);
 router.post('/send-password-reset-email', sendPasswordResetEmailValidator, sendPasswordResetEmailController)
 router.post('/reset-password', resetPasswordValidator, resetPasswordController);
+
+/* User Routes */
 router.patch('/user/update/:userId', updateUserInfoValidator, updateUserInfoController);
 router.delete('/user/delete/:userId', isAuthenticated, deleteUserController);
-router.post('/post', isAuthenticated, createNewPostValidator, createNewPostController);
 router.get('/user/:userId/posts', isAuthenticated, getUsersPostsController);
+
+/* Post Routes */
+router.post('/post', isAuthenticated, createNewPostValidator, createNewPostController);
 router.post('/posts/:postId/like', isAuthenticated, likePostController);
+router.post('/posts/:postId/comment', isAuthenticated, createNewCommentValidator, createNewCommentController);
 
 module.exports = { router };
