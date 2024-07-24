@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppBar, Toolbar, IconButton, Typography, InputBase, Avatar, Box } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 import { styled, alpha } from '@mui/material/styles';
@@ -43,6 +43,35 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function TopAppBar() {
 
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await fetch('/api/user', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+
+                if (response.ok) {
+                    const userData = await response.json();
+                    setUser(userData);
+                } else {
+                    console.error('Failed to fetch user data');
+                }
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        };
+
+        fetchUser();
+    }, []);
+
+    console.log(user);
+
     return (
 
         <AppBar position="fixed">
@@ -68,10 +97,18 @@ export default function TopAppBar() {
 
                 <Box sx={{ flexGrow: 1 }} />
 
-                <Typography>Username</Typography>
-                <IconButton color="inherit">
-                    <Avatar alt="Profile" src="/path-to-profile-pic" />
-                </IconButton>
+                <Box sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 2
+                }}>
+
+                    <Typography>{user ? user.user.username : '...Fetching'}</Typography>
+                    <IconButton color="inherit">
+                        <Avatar alt="user.name" src={user && user.user.profilePic} />
+                    </IconButton>
+
+                </Box>
 
             </Toolbar>
 
