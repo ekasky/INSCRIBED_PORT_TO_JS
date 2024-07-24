@@ -2,16 +2,23 @@ import React, { useState } from 'react';
 import { Card, CardContent, Typography, IconButton, Box, Avatar } from '@mui/material';
 import { Favorite, FavoriteBorder, Delete } from '@mui/icons-material';
 import { formatDistanceToNow } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
 export default function PostCard ({ post, handleLike, handleUnlike, handleDelete, userId }) {
     
     /* Check if the user is the owner, and if they liked the post */
     const isOwner = post.author._id === userId;
     const likedByUser = post.likes.includes(userId);
+
+    const navigate = useNavigate();
+
+    const handleCardClick = () => {
+        navigate(`/post/${post._id}`);
+    };
     
     return (
 
-        <Card sx={{ marginBottom: 2 }}>
+        <Card sx={{ marginBottom: 2, cursor: 'pointer' }} onClick={handleCardClick}>
 
             <CardContent>
 

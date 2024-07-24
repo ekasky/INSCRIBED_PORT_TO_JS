@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import InfiniteScrollFeed from "../components/InfiniteScrollFeed";
 import TopAppBar from "../components/TopAppBar";
 import { Box, ButtonGroup, Button } from '@mui/material';
-
+import { AuthContext } from '../contexts/AuthContext';
 
 export default function HomePage() {
-
-    const [currentFeed, setCurrentFeed] = useState('forYou')
+    const [currentFeed, setCurrentFeed] = useState('forYou');
+    const { user } = useContext(AuthContext);
 
     const getApiEndpoint = () => {
         switch (currentFeed) {
@@ -14,15 +14,16 @@ export default function HomePage() {
                 return '/api/for-you-feed';
             case 'discover':
                 return '/api/discover-feed';
-            case 'profile':
-                return '/api/for-you-feed';
             default:
                 return '/api/for-you-feed';
         }
     };
 
-    return( 
+    if (!user) {
+        return <Box>Loading...</Box>;
+    }
 
+    return (
         <Box>
             <TopAppBar />
             <Box sx={{ paddingTop: '64px', backgroundColor: '#f7f7f7', minHeight: '100vh' }}>
@@ -30,13 +31,10 @@ export default function HomePage() {
                     <ButtonGroup variant="contained" aria-label="outlined primary button group">
                         <Button onClick={() => setCurrentFeed('forYou')}>For You</Button>
                         <Button onClick={() => setCurrentFeed('discover')}>Discover</Button>
-                        <Button onClick={() => setCurrentFeed('profile')}>Profile</Button>
                     </ButtonGroup>
                 </Box>
-                <InfiniteScrollFeed apiEndpoint={getApiEndpoint()} userId='66a1082ad0be79de9f426e8a' />
+                <InfiniteScrollFeed apiEndpoint={getApiEndpoint()} userId={user._id} />
             </Box>
         </Box>
-
     );
-
 }
