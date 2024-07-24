@@ -33,7 +33,7 @@ const getUsersPostsController = async (req, res) => {
 
         
         // Get the requesting user's ID from the authentication middleware
-         const requestingUserId = req.user.id;
+         const requestingUserId = req.user.userId;
 
         // Map posts to include additional details
         const mappedPosts = posts.map((post) => ({

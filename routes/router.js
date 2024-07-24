@@ -23,6 +23,7 @@ const { sendPasswordResetEmailValidator }    = require('../validators/sendPasswo
 const { resetPasswordValidator }             = require('../validators/resetPasswordValidator');
 const { updateUserInfoValidator }            = require('../validators/updateUserInfoValidator');
 const { createNewPostValidator }             = require('../validators/createNewPostValidator');
+const { getUsersPostsController } = require('../controllers/getUsersPostsController');
 
 
 
@@ -40,5 +41,6 @@ router.post('/reset-password', resetPasswordValidator, resetPasswordController);
 router.patch('/user/update/:userId', updateUserInfoValidator, updateUserInfoController);
 router.delete('/user/delete/:userId', isAuthenticated, deleteUserController);
 router.post('/post', isAuthenticated, createNewPostValidator, createNewPostController);
+router.get('/user/:userId/posts', isAuthenticated, getUsersPostsController);
 
 module.exports = { router };
