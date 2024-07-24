@@ -28,7 +28,7 @@ const { getFollowersController }              = require('../controllers/getFollo
 const { getFollowingController }              = require('../controllers/getFollowingController');
 const { getUserController }                   = require('../controllers/getUserController');
 const { getPostController }                   = require('../controllers/getPostController');
-const { loginController }                     = require('../controllers/logoutController');
+const { logoutController }                     = require('../controllers/logoutController');
 
 /* Validators */
 const { validateRegister }                   = require('../validators/registerValidator');
@@ -53,7 +53,7 @@ router.post('/send-verify-email', requestVerifyAccountEmailValidator, requestVer
 router.get('/verify-account', verifyAccountController);
 router.post('/send-password-reset-email', sendPasswordResetEmailValidator, sendPasswordResetEmailController)
 router.post('/reset-password', resetPasswordValidator, resetPasswordController);
-router.post('/logout', isAuthenticated, loginController);
+router.post('/logout', isAuthenticated, logoutController);
 
 /* User Routes */
 router.patch('/user/update/:userId', isAuthenticated, updateUserInfoValidator, updateUserInfoController);

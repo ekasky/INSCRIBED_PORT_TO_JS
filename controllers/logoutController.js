@@ -1,6 +1,6 @@
+const BlacklistedToken = require('../models/BlacklistToken');
 
-
-const logout = async (req, res) => {
+const logoutController = async (req, res) => {
 
     try {
 
@@ -39,3 +39,5 @@ const logout = async (req, res) => {
     }
 
 };
+
+module.exports = { logoutController };
