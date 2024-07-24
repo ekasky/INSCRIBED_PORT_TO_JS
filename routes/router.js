@@ -19,6 +19,7 @@ const { likePostController }                  = require('../controllers/likePost
 const { createNewCommentController }          = require('../controllers/createNewCommentController');
 const { deletePostController }                = require('../controllers/deletePostController');
 const { unlikePostController }                = require('../controllers/unlikePostController');
+const { deleteCommentController }             = require('../controllers/deleteCommentController');
 
 /* Validators */
 const { validateRegister }                   = require('../validators/registerValidator');
@@ -55,5 +56,6 @@ router.post('/posts/:postId/like', isAuthenticated, likePostController);
 router.post('/posts/:postId/comment', isAuthenticated, createNewCommentValidator, createNewCommentController);
 router.delete('/posts/:postId/delete', isAuthenticated, deletePostController);
 router.delete('/posts/:postId/unlike', isAuthenticated, unlikePostController);
+router.delete('/posts/:postId/comments/:commentId/delete', isAuthenticated, deleteCommentController);
 
 module.exports = { router };
