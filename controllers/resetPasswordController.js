@@ -55,6 +55,8 @@ const resetPasswordController = async (req, res) => {
 
         // Update the password in the users record
         user.password = hash;
+        user.loginAttempts = 0;
+        user.accountLocked = false;
         await user.save();
 
         // Return success response message
