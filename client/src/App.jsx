@@ -6,30 +6,33 @@ import RegisterPage from './pages/RegisterPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import HomePage from './pages/HomePage';
+import { AuthContext } from './contexts/AuthContext';
 
 
 export default function App() {
 
   return (
     
-    <BrowserRouter>
+    <AuthContext>
+      <BrowserRouter>
 
-      <Routes>
+        <Routes>
 
 
-        <Route path='/' element={<LoginPage />} />
-        <Route path='/register' element={<RegisterPage />} />
-        <Route path='/forgot-password' element={<ForgotPasswordPage />}/>
-        <Route path='/reset-password' element={<ResetPasswordPage />}/>
+          <Route path='/' element={<LoginPage />} />
+          <Route path='/register' element={<RegisterPage />} />
+          <Route path='/forgot-password' element={<ForgotPasswordPage />}/>
+          <Route path='/reset-password' element={<ResetPasswordPage />}/>
 
-        {/* Protected Routes */}
-        <Route path='/home' element={<HomePage />} />
+          {/* Protected Routes */}
+          <Route path='/home' element={<HomePage />} />
 
-        <Route path='*' element={<>Not Found</>} />
-        
-      </Routes>
+          <Route path='*' element={<>Not Found</>} />
+          
+        </Routes>
 
-    </BrowserRouter>
+      </BrowserRouter>
+    </AuthContext>
 
   );
 
