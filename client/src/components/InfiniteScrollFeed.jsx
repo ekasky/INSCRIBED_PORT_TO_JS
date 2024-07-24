@@ -15,14 +15,15 @@ export default function InfiniteScrollFeed({ apiEndpoint, userId }) {
         fetchPosts(1);
     }, [apiEndpoint]);
 
+    /* Function to fetch posts */
     const fetchPosts = async (pageNumber) => {
         
         try {
 
-            // Get the user token 
+            // Get the user login token from localstorage
             const token = localStorage.getItem('token');
 
-            // make api call to get feed
+            // Call the get feed api endpoint to get posts
             const response = await fetch(`${apiEndpoint}?page=${pageNumber}&limit=10`, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -30,23 +31,24 @@ export default function InfiniteScrollFeed({ apiEndpoint, userId }) {
                 },
             });
 
-            // If you are not logged in show unauthrized
+            // If the user is not logged throw a unauthorized error
             if (response.status === 401) {
                 throw new Error('Unauthorized');
             }
-
+            
+            // Get the posts in json form
             const data = await response.json();
 
-            // If there are no more posts to fetch set the has more state to false
+            // If there are no more post to fetch set the has more state to false
             if (!data.posts || data.posts.length === 0) {
                 setHasMore(false);
                 return;
             }
 
+            // Add the posts to the post state
             setPosts((prevPosts) => [...prevPosts, ...data.posts]);
 
         } 
-        
         catch (error) {
 
             console.error('Error fetching posts:', error);
@@ -54,11 +56,120 @@ export default function InfiniteScrollFeed({ apiEndpoint, userId }) {
         }
     };
 
+    // Fetch the posts when we need a new page
+    useEffect(() => {
+        fetchPosts(page);
+    }, [page, apiEndpoint]);
+
+    // Function to increment to page by 1
     const fetchMoreData = () => {
-
         setPage((prevPage) => prevPage + 1);
-        fetchPosts(page + 1);
+    };
 
+    // Handles the like post button 
+    const handleLike = async (postId) => {
+
+        try {
+
+            // Get the user login token from the localstorage
+            const token = localStorage.getItem('token');
+            
+            // Attempt to like the post
+            const response = await fetch(`/api/posts/${postId}/like`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+
+            });
+
+            // If we were abel to like the post update the current posts state in the feed to relfect the new change
+            if (response.ok) {
+
+                setPosts((prevPosts) =>
+                    prevPosts.map((post) =>
+                        post._id === postId ? { ...post, likes: [...post.likes, userId] } : post
+                    )
+                    
+                );
+            }
+        } 
+        
+        catch (error) {
+
+            console.error('Error liking post:', error);
+
+        }
+    };
+
+    // Function to handle unliking a post
+
+    const handleUnlike = async (postId) => {
+
+        try {
+
+            // Get the user login token from the localstorage
+            const token = localStorage.getItem('token');
+
+            // Make a api call to try and unlike the post
+            const response = await fetch(`/api/posts/${postId}/unlike`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            // If we succressfully unliked the post, update the current post state to reflect the changes
+            if (response.ok) {
+
+                setPosts((prevPosts) =>
+                    prevPosts.map((post) =>
+                        post._id === postId ? { ...post, likes: post.likes.filter((like) => like !== userId) } : post
+                    )
+                );
+
+            }
+        } 
+        
+        catch (error) {
+
+            console.error('Error unliking post:', error);
+
+        }
+    };
+
+    // Function to handle deleting a post
+    const handleDelete = async (postId) => {
+
+        try {
+
+            // Get the user login token from the localstorage
+            const token = localStorage.getItem('token');
+
+            // Make a api call to attempt to delete a post
+            const response = await fetch(`/api/posts/${postId}/delete`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            // If the post was deleted successfully, remove the post from the current feed
+            if (response.ok) {
+
+                setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
+            
+            }
+        } 
+        
+        catch (error) {
+
+            console.error('Error deleting post:', error);
+            
+        }
     };
 
     return (
