@@ -1,8 +1,7 @@
 const Post = require('../models/Post');
-const Comment = require('../models/Comment');
 const mongoose = require('mongoose');
 
-const getPostWithCommentsController = async (req, res) => {
+const getPostController = async (req, res) => {
     
     try {
 
@@ -20,20 +19,18 @@ const getPostWithCommentsController = async (req, res) => {
             return res.status(404).json({ message: 'Post not found' });
         }
 
-        // Find comments for the post
-        const comments = await Comment.find({ post: postId }).populate('author').sort({ createdAt: -1 });
-
-        return res.status(200).json({ post, comments });
-
     } 
     
     catch (error) {
 
-        console.error('Error fetching post with comments:', error);
-        return res.status(500).json({ message: 'Server error. Please try again later.' });
+        console.error('Error fetching post: ', error);
+
+        return res.status(500).json({ 
+            message: 'Server error. Please try again later.' 
+        });
 
     }
     
 };
 
-module.exports = { getPostWithCommentsController };
+module.exports = { getPostController };
