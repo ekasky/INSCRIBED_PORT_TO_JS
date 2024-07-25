@@ -6,6 +6,7 @@ import Register from "../components/auth/Register";
 import Dashboard from '../components/dashboard/index';
 import ForgotPassword from "../components/auth/ForgotPassword";
 import ResetPassword from "../components/auth/ResetPassword";
+import Settings from "../components/dashboard/Settings";
 
 import Layout from "../components/layout";
 
@@ -18,6 +19,7 @@ export const RESET_PASSWORD = '/reset-password';
 
 export const PROTECTED = '/protected';
 export const DASHBOARD = '/protected/dashboard';
+export const SETTINGS = '/protected/settings';
 
 
 export const router = createBrowserRouter([
@@ -30,7 +32,8 @@ export const router = createBrowserRouter([
 
     { path: PROTECTED, element: <Layout />, children: [
 
-        {path: DASHBOARD, element: <Dashboard />},
+        { path: DASHBOARD, element: <Dashboard /> },
+        { path: SETTINGS, element: <Settings /> }
 
     ]}
 

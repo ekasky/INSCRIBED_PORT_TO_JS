@@ -40,12 +40,16 @@ const Sidebar = () => {
     const textColor = { light: 'black', dark: 'white' };
 
     return (
+        
         <Box
             w="250px"
             p="20px"
             bg={bgColor[colorMode]}
             color={textColor[colorMode]}
             h="100vh"
+            position="fixed"
+            top="0"
+            left="0"
         >
 
             <VStack spacing={5} align="stretch">
