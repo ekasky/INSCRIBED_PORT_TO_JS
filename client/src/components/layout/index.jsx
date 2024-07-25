@@ -2,9 +2,7 @@ import { useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { LOGIN } from "../../lib/routes";
 import { useAuth } from "../../hooks/useAuth";
-import Navbar from './Navbar';
 import Sidebar from "./Sidebar";
-import { Box, Flex } from "@chakra-ui/react";
 
 export default function Layout() {
 
@@ -46,19 +44,8 @@ export default function Layout() {
 
     <>
 
-      <Navbar />
-
-      <Flex>
-
-        <Sidebar />
-        
-        <Box flex='1' bg='green.700' color='white' p='4'>
-          
-          <Outlet />
-          
-        </Box>
-
-      </Flex>
+      <Sidebar />
+      <Outlet />
 
     </>
     )
