@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { LOGIN } from "../../lib/routes";
 import { useAuth } from "../../hooks/useAuth";
-import Navbar from "../navbar";
+import Navbar from './Navbar';
+import Sidebar from "./Sidebar";
 
 export default function Layout() {
 
@@ -47,6 +48,7 @@ export default function Layout() {
       {/* {user ? <Outlet /> : <div>Redirecting...</div>} */}
 
       <Navbar />
+      <Sidebar />
       <Outlet />
 
     </>

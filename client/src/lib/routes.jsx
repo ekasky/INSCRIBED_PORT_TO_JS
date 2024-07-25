@@ -12,14 +12,21 @@ export const REGISTER = '/register';
 
 export const PROTECTED = '/protected';
 export const DASHBOARD = '/protected/dashboard';
+export const FOLLOWERS = '/protected/followers';
+export const FOLLOWING = '/protected/following';
+export const PROFILE   = '/protected/profile/:userid';
 
 export const router = createBrowserRouter([
-  
-    { path: ROOT, element: "Test" },
+    
+    { path: ROOT, element: <Login /> },
     { path: LOGIN, element: <Login /> },
     { path: REGISTER, element: <Register /> },
-    { path: PROTECTED, element: <Layout />, children: [{
-        path: DASHBOARD, element: <Dashboard />
-    }] }
+    { path: PROTECTED, element: <Layout />, children: [
+
+        {path: DASHBOARD, element: <Dashboard />},
+        {path: FOLLOWERS, element: "Followers"},
+        {path: FOLLOWING, element: "Following"},
+        {path: PROFILE, element: "Profile"}
+    ]}
 
 ]);
