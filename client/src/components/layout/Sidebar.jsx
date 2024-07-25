@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Avatar,
   Box,
@@ -12,11 +12,28 @@ import {
 } from '@chakra-ui/react';
 import { FaUserEdit, FaUsers, FaUserFriends, FaCompass, FaStream, FaPlusCircle, FaClipboardList, FaSignOutAlt } from 'react-icons/fa';
 import { useLogout } from '../../hooks/useLogout';
+import { useAuth } from '../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
+import { LOGIN } from '../../lib/routes'
 
 const Sidebar = () => {
 
     // use the logout function from the uselogout hook
     const { logout, loading } = useLogout();
+
+    // create a navigate function from the useNavigate hook
+    const navigate = useNavigate();
+
+    // use the auth state to get the user info
+    const { user, isLoading, error } = useAuth();
+
+    // get the userIngo from the useAuth hook
+    useEffect(() => {
+        if (!isLoading && !user) {
+          navigate(LOGIN);
+        }
+      }, [isLoading, user, navigate]);
+    
 
     const { colorMode } = useColorMode();
     const bgColor = { light: 'gray.100', dark: 'gray.900' };
@@ -35,10 +52,10 @@ const Sidebar = () => {
 
                 <Box textAlign="center">
 
-                <Avatar size="xl" name="User Name" />
+                <Avatar size="xl" name={user?.username || ''} />
 
                 <Text mt={2} fontSize="lg" fontWeight="bold">
-                    UserName
+                    {user?.username || 'UserName'}
                 </Text>
 
                 </Box>
