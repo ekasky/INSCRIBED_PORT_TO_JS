@@ -1,5 +1,6 @@
-import { Center, Box, Heading, FormControl, FormLabel, Input, FormErrorMessage, Button, Link, Text } from "@chakra-ui/react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { Center, Box, Heading, FormControl, FormLabel, Input, FormErrorMessage, Button, Link, Text, useToast } from "@chakra-ui/react";
+import { Link as RouterLink, useSearchParams } from "react-router-dom";
 import { DASHBOARD, LOGIN, REGISTER } from "../../lib/routes";
 import { useLogin } from "../../hooks/useLogin";
 import { useForm } from 'react-hook-form';
@@ -13,7 +14,21 @@ export default function Login() {
     /* Use the useForm hook from react-hook-forms for input validation */
     const { register, handleSubmit, reset, formState: { errors }} = useForm();
 
-    console.log(errors);
+    const toast = useToast();
+    const [searchParams] = useSearchParams();
+
+    // if coming from a successful registration, show a message
+    useEffect(() => {
+        if (searchParams.get('verified') === 'true') {
+            toast({
+                title: 'Account verified',
+                description: 'Your account has been successfully verified.',
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+            });
+        }
+    }, [searchParams, toast]);
 
     /* Function to handle login submit */
     const handleLogin = async (data) => {

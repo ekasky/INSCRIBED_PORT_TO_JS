@@ -36,10 +36,8 @@ const verifyAccountController = async (req, res) => {
         user.accountVerified = true;
         await user.save();
 
-        // Send a success response letting the user know there account is verified
-        return res.status(200).json({
-            message: 'Account verified successfully'
-        });
+        // Redirect to the login page with a verified flag
+        return res.status(200).redirect(`${process.env.FRONTEND_URL}/login?verified=true`);
 
     }
 
