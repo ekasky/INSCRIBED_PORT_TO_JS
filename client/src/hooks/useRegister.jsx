@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { LOGIN } from "../lib/routes";
-import { header } from "express/lib/request";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 
@@ -47,21 +46,18 @@ export function useRegister() {
 
                 },
 
-                body: {
-                    first_name: first_name,
-                    last_name: last_name,
+                body: JSON.stringify({
+                    firstName: first_name,
+                    lastName: last_name,
                     email: email,
                     username: username,
                     password: password
-                }
+                })
 
             });
 
             // Get the response data
-            const data = await response.data;
-
-            console.log(data);
-
+            const data = await response.json();
 
             // If the response is 201 Created,
             // the user was successfully registered
@@ -81,7 +77,7 @@ export function useRegister() {
                 navigate(redirectTo);
                 
                 setLoading(false);
-                return true;
+                return { success: true };
 
             }
 
@@ -99,10 +95,10 @@ export function useRegister() {
                     isClosable: true
                 });
 
-                setErrors(data);
+                setErrors(data.errors);
 
                 setLoading(false);
-                return false;
+                return { success: false, errors: data.errors };
 
             }
 
@@ -122,9 +118,8 @@ export function useRegister() {
                 isClosable: true
             });
 
-            setErrors(data);
             setLoading(false);
-            return false;
+            return { success: false };
 
         }
 
