@@ -19,8 +19,6 @@ const getPostController = async (req, res) => {
             return res.status(404).json({ message: 'Post not found' });
         }
 
-        return res.status(200).json(post);
-
     } 
     
     catch (error) {
