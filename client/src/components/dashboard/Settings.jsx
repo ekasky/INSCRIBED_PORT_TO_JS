@@ -109,6 +109,74 @@ export default function Settings() {
 
     const handleDeleteAccount = async () => {
         
+        try {
+
+            // Set deleteLoading to true while the request is being made
+            setDeleteLoading(true);
+
+            // Make the request to the server
+            const response = await fetch(`/api/user/delete/${user._id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+
+            // Parse the response
+            const resData = await response.json();
+
+            // If the response is successful, show a success toast
+            if (response.ok) {
+                toast({
+                    title: "Account Deleted",
+                    description: "Your account has been deleted successfully.",
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: 'top'
+                });
+
+                // Logout the user
+                await logout();
+
+                // Navigate to the login page
+                navigate(LOGIN);
+            }
+
+            else {
+
+                // If the response is not successful, show an error toast
+                toast({
+                    title: "Error",
+                    description: resData.error,
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                    position: 'top'
+                });
+
+            }
+
+        }
+
+        catch(error) {
+
+            // If there is an error, show an error toast
+            toast({
+                title: "Error",
+                description: "An error occurred. Please try again later.",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+                position: 'top'
+            });
+
+        }
+
+        // Set deleteLoading to false
+        setDeleteLoading(false);
+
     };
 
     return (
