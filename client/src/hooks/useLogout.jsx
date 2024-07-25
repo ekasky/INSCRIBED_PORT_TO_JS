@@ -30,7 +30,7 @@ export function useLogout() {
             // Make a api call to the log
             // out endpoint to attempt tp
             // logout the user
-            const response = await fetch('/logout', {
+            const response = await fetch('/api/logout', {
 
                 method: 'POST',
                 headers: {
@@ -102,5 +102,7 @@ export function useLogout() {
         }
 
     };
+
+    return { logout, loading };
 
 }
