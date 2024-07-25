@@ -14,7 +14,8 @@ import { FaUserEdit, FaUsers, FaUserFriends, FaCompass, FaStream, FaPlusCircle, 
 import { useLogout } from '../../hooks/useLogout';
 import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import { LOGIN } from '../../lib/routes'
+import { LOGIN, SETTINGS } from '../../lib/routes';
+import { Link as RouterLink } from 'react-router-dom';
 
 const Sidebar = () => {
 
@@ -66,7 +67,7 @@ const Sidebar = () => {
 
                 <Divider />
 
-                <Button leftIcon={<FaUserEdit />} colorScheme="teal" variant="solid">
+                <Button leftIcon={<FaUserEdit />} colorScheme="teal" variant="solid" as={RouterLink} to={SETTINGS}>
                 Edit Settings
                 </Button>
 
