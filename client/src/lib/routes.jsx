@@ -10,6 +10,8 @@ import Settings from "../components/dashboard/Settings";
 
 import Layout from "../components/layout";
 import DiscoverFeed from "../components/feed/DiscoverFeed";
+import ForYouFeed from "../components/feed/ForYouFeed";
+import YourPosts from "../components/feed/YourPosts";
 
 
 export const ROOT     = '/';
@@ -22,6 +24,8 @@ export const PROTECTED = '/protected';
 export const DASHBOARD = '/protected/dashboard';
 export const SETTINGS = '/protected/settings';
 export const DISCOVER_FEED = '/protected/discover-feed';
+export const FOR_YOU_FEED = '/protected/for-you-feed';
+export const YOUR_POSTS = '/protected/your-posts';
 
 
 export const router = createBrowserRouter([
@@ -36,7 +40,9 @@ export const router = createBrowserRouter([
 
         { path: DASHBOARD, element: <Dashboard /> },
         { path: SETTINGS, element: <Settings /> },
-        { path: DISCOVER_FEED, element: <DiscoverFeed /> }
+        { path: DISCOVER_FEED, element: <DiscoverFeed /> },
+        { path: FOR_YOU_FEED, element: <ForYouFeed /> },
+        { path: YOUR_POSTS, element: <YourPosts /> },
 
     ]}
 

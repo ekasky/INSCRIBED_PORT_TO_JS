@@ -14,7 +14,7 @@ import { FaUserEdit, FaUsers, FaUserFriends, FaCompass, FaStream, FaPlusCircle, 
 import { useLogout } from '../../hooks/useLogout';
 import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import { DISCOVER_FEED, LOGIN, SETTINGS } from '../../lib/routes';
+import { DISCOVER_FEED, FOR_YOU_FEED, LOGIN, SETTINGS, YOUR_POSTS } from '../../lib/routes';
 import { Link as RouterLink } from 'react-router-dom';
 
 const Sidebar = () => {
@@ -75,11 +75,11 @@ const Sidebar = () => {
                 Discover Feed
                 </Button>
 
-                <Button leftIcon={<FaStream />} colorScheme="teal" variant="outline">
+                <Button leftIcon={<FaStream />} colorScheme="teal" variant="outline" as={RouterLink} to={FOR_YOU_FEED}>
                 Follower Feed
                 </Button>
 
-                <Button leftIcon={<FaClipboardList />} colorScheme="teal" variant="outline">
+                <Button leftIcon={<FaClipboardList />} colorScheme="teal" variant="outline" as={RouterLink} to={YOUR_POSTS}>
                 Your Posts
                 </Button>
 
