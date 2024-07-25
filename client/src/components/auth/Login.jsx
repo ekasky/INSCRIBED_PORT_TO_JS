@@ -88,6 +88,14 @@ export default function Login() {
 
                 </Text>
 
+                {/* Link to forgot password */}
+                <Text fontSize="xlg" align='center' mt='5'>
+                    Forgot your password?{" "}
+                    <Link as={RouterLink} to='/forgot-password' color='blue.800' fontWeight='medium'  >
+                    Reset here
+                    </Link>
+                </Text>
+
             </Box>
 
         </Center>
