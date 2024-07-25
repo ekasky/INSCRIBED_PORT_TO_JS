@@ -13,6 +13,7 @@ import DiscoverFeed from "../components/feed/DiscoverFeed";
 import ForYouFeed from "../components/feed/ForYouFeed";
 import YourPosts from "../components/feed/YourPosts";
 import NewPost from "../components/feed/NewPost";
+import PostPage from "../components/feed/PostPage";
 
 
 export const ROOT     = '/';
@@ -28,6 +29,7 @@ export const DISCOVER_FEED = '/protected/discover-feed';
 export const FOR_YOU_FEED = '/protected/for-you-feed';
 export const YOUR_POSTS = '/protected/your-posts';
 export const NEW_POST = '/protected/new-post';
+export const POST_PAGE = '/protected/posts/:id';
 
 
 export const router = createBrowserRouter([
@@ -46,6 +48,7 @@ export const router = createBrowserRouter([
         { path: FOR_YOU_FEED, element: <ForYouFeed /> },
         { path: YOUR_POSTS, element: <YourPosts /> },
         { path: NEW_POST, element: <NewPost /> },
+        { path: POST_PAGE, element: <PostPage /> },
 
     ]}
 

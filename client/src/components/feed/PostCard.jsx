@@ -11,7 +11,7 @@ export default function PostCard({ post, handleLike, handleUnlike, handleDelete,
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    navigate(`/post/${post._id}`);
+    navigate(`/protected/posts/${post._id}`);
   };
 
   const handleLikeClick = (event) => {

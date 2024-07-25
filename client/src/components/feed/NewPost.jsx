@@ -44,7 +44,7 @@ export default function NewPost() {
         isClosable: true,
       });
 
-      navigate(`/posts/${data._id}`); // Navigate to the new post page
+      navigate(`/protected/posts/${data._id}`);
     } 
     
     catch (error) {
