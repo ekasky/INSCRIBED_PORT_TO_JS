@@ -13,7 +13,76 @@ export default function ResetPassword() {
 
     // Function to handle password reset submit
     const handleResetPassword = async (data) => {
-        console.log(data);
+        
+        try {
+
+            // while we are processing the request, set loading to true
+            setLoading(true);
+
+            // get the token from the query params
+            const searchParams = new URLSearchParams(window.location.search);
+            const token = searchParams.get('token');
+
+            // make a fetch request to the server to send the reset link
+            const response = await fetch(`/api/reset-password?token=${token}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            // fetch the response
+            const resData = await response.json();
+
+            // if the request was successful, show a success toast
+            if(response.ok) {
+                toast({
+                    title: "Password Reset",
+                    description: resData.message,
+                    status: "success",
+                    duration: 5000,
+                    isClosable: true,
+                    position: 'top'
+                });
+
+                // reset the form
+                reset();
+
+                // navigate to the login page
+                navigate(LOGIN);
+            }
+            else {
+                // if there was an error, show an error toast
+                toast({
+                    title: "Password Reset Error",
+                    description: resData.message,
+                    status: "error",
+                    duration: 5000,
+                    isClosable: true,
+                    position: 'top'
+                });
+            }
+
+        }
+
+        catch(error) {
+
+            // if there was an error, show an error toast
+            toast({
+                title: "Password Reset Error",
+                description: error.message,
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+                position: 'top'
+            });
+
+        }
+
+        // set loading to false after the request is complete
+        setLoading(false);
+
     };
 
     return (
@@ -54,7 +123,7 @@ export default function ResetPassword() {
                 </Text>
 
             </Box>
-            
+
         </Center>
     );
 }
