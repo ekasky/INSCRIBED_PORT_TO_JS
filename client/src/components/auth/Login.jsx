@@ -32,6 +32,19 @@ export default function Login() {
 
             navigate(LOGIN);
         }
+
+        else if(searchParams.get('reset') === 'true') {
+            toast({
+                title: 'Password Reset',
+                description: 'Your password has been successfully reset. Please login.',
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+            });
+
+            navigate(LOGIN);
+        }
+
     }, [searchParams, toast]);
 
     /* Function to handle login submit */
