@@ -29,6 +29,7 @@ const { getFollowingController }              = require('../controllers/getFollo
 const { getUserController }                   = require('../controllers/getUserController');
 const { getPostController }                   = require('../controllers/getPostController');
 const { logoutController }                     = require('../controllers/logoutController');
+const { searchForPost }                       = require('../controllers/searchForPost');
 
 /* Validators */
 const { validateRegister }                   = require('../validators/registerValidator');
@@ -75,5 +76,6 @@ router.delete('/posts/:postId/delete', isAuthenticated, deletePostController);
 router.delete('/posts/:postId/unlike', isAuthenticated, unlikePostController);
 router.delete('/posts/:postId/comments/:commentId/delete', isAuthenticated, deleteCommentController);
 router.get('/posts/:postId', isAuthenticated, getPostController);
+router.post('/search', searchForPost);
 
 module.exports = { router };
