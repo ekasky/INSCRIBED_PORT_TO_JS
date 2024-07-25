@@ -21,6 +21,7 @@ export default function Login() {
 
     // if coming from a successful registration, show a message
     useEffect(() => {
+        
         if (searchParams.get('verified') === 'true') {
             toast({
                 title: 'Account verified',
@@ -33,19 +34,7 @@ export default function Login() {
             navigate(LOGIN);
         }
 
-        else if(searchParams.get('reset') === 'true') {
-            toast({
-                title: 'Password Reset',
-                description: 'Your password has been successfully reset. Please login.',
-                status: 'success',
-                duration: 5000,
-                isClosable: true,
-            });
-
-            navigate(LOGIN);
-        }
-
-    }, [searchParams, toast]);
+    }, [searchParams, toast, navigate]);
 
     /* Function to handle login submit */
     const handleLogin = async (data) => {
