@@ -7,7 +7,8 @@ import {
   Text,
   Divider,
   useColorMode,
-  Flex
+  Flex,
+  IconButton
 } from '@chakra-ui/react';
 import { FaUserEdit, FaUsers, FaUserFriends, FaCompass, FaStream, FaPlusCircle, FaClipboardList, FaSignOutAlt } from 'react-icons/fa';
 
@@ -54,11 +55,16 @@ const Sidebar = () => {
           Following
         </Button>
       </VStack>
-      <Flex mt="auto" pt={5}>
-        <Button leftIcon={<FaSignOutAlt />} colorScheme="red" variant="solid" width="100%">
-          Logout
-        </Button>
-      </Flex>
+      <IconButton
+        aria-label="Logout"
+        icon={<FaSignOutAlt />}
+        colorScheme="red"
+        variant="solid"
+        size="sm"
+        position="absolute"
+        bottom="10px"
+        left="10px"
+      />
     </Box>
   );
 };
