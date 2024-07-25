@@ -3,6 +3,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { LOGIN } from "../../lib/routes";
 import { useAuth } from "../../hooks/useAuth";
 import Sidebar from "./Sidebar";
+import { Box, Flex } from "@chakra-ui/react";
 
 export default function Layout() {
 
@@ -44,8 +45,17 @@ export default function Layout() {
 
     <>
 
-      <Sidebar />
-      <Outlet />
+      <Flex>
+
+        <Sidebar />
+
+        <Box flex="1" p="4">
+
+          <Outlet />
+
+        </Box>
+
+      </Flex>
 
     </>
     )
