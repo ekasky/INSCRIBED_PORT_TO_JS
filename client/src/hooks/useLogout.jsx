@@ -69,11 +69,12 @@ export function useLogout() {
             else {
 
                 toast({
-                    message: 'Logout Failed',
+                    title: 'Logout Failed',
                     description: data.message,
                     status: 'error',
                     position: 'top',
-                    duration: 5000
+                    duration: 5000,
+                    isClosable: true
                 });
 
                 setLoading(false);
@@ -89,11 +90,12 @@ export function useLogout() {
         catch(error) {
 
             toast({
-                message: 'Logout Failed',
+                title: 'Logout Failed',
                 description: 'Please try again later',
                 status: 'error',
                 position: 'top',
-                duration: 5000
+                duration: 5000,
+                isClosable: true
             });
 
             setLoading(false);
