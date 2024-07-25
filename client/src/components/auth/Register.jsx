@@ -7,9 +7,9 @@ import { useForm } from 'react-hook-form';
 import { firstNameValidate, lastNameValidate, usernameValidate, passwordValidate, emailValidate } from '../../util/form-validate';
 
 export default function Register() {
+   
     /* Use the custom register hook */
     const { register, loading, errors: apiErrors } = useRegister();
-
 
     /* Use the useForm hook from react-hook-forms for input validation */
     const { register: registerField, handleSubmit, reset, setError, formState: { errors: formErrors }} = useForm();
@@ -27,23 +27,9 @@ export default function Register() {
         
     };
 
-    useEffect(() => {
-
-        console.log(apiErrors);
-
-        if (apiErrors) {
-            Object.keys(apiErrors).forEach(key => {
-                setError(key, {
-                    type: "manual",
-                    message: apiErrors[key]
-                });
-            });
-        }
-    }, [apiErrors, setError]);
-
     return (
         <Center w='100%' h='100vh'>
-            <Box mx="1" maxW='md' p='9' borderWidth='1px' borderRadius='lg'>
+            <Box width="400px" maxW='400px' p='9' borderWidth='1px' borderRadius='lg'>
                 <Heading mb="4" textAlign='center'>Register</Heading>
                 <form onSubmit={handleSubmit(handleRegister)}>
                     {/* First Name Input */}
@@ -61,19 +47,17 @@ export default function Register() {
                     </FormControl>
 
                     {/* Email Input */}
-                    <FormControl py='2' isInvalid={formErrors.email || apiErrors}>
+                    <FormControl py='2' isInvalid={formErrors.email}>
                         <FormLabel>Email</FormLabel>
                         <Input type="email" placeholder="Email" {...registerField('email', emailValidate)} />
                         <FormErrorMessage>{formErrors.email && formErrors.email.message}</FormErrorMessage>
-                        <FormErrorMessage>{apiErrors && 'Email taken'}</FormErrorMessage>
                     </FormControl>
 
                     {/* Username Input */}
-                    <FormControl py='2' isInvalid={formErrors.username || apiErrors}>
+                    <FormControl py='2' isInvalid={formErrors.username}>
                         <FormLabel>Username</FormLabel>
                         <Input type="text" placeholder="Username" {...registerField('username', usernameValidate)} />
                         <FormErrorMessage>{formErrors.username && formErrors.username.message}</FormErrorMessage>
-                        <FormErrorMessage>{apiErrors && 'Username taken'}</FormErrorMessage>
                     </FormControl>
 
                     {/* Password Input */}

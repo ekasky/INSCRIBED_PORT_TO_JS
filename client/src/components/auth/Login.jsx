@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Center, Box, Heading, FormControl, FormLabel, Input, FormErrorMessage, Button, Link, Text, useToast } from "@chakra-ui/react";
-import { Link as RouterLink, useSearchParams } from "react-router-dom";
+import { Link as RouterLink, useNavigate, useSearchParams } from "react-router-dom";
 import { DASHBOARD, LOGIN, REGISTER } from "../../lib/routes";
 import { useLogin } from "../../hooks/useLogin";
 import { useForm } from 'react-hook-form';
@@ -10,6 +10,8 @@ export default function Login() {
 
     /* Use the custom login hook */
     const { login, isLoading } = useLogin();
+
+    const navigate = useNavigate();
 
     /* Use the useForm hook from react-hook-forms for input validation */
     const { register, handleSubmit, reset, formState: { errors }} = useForm();
@@ -27,6 +29,8 @@ export default function Login() {
                 duration: 5000,
                 isClosable: true,
             });
+
+            navigate(LOGIN);
         }
     }, [searchParams, toast]);
 
@@ -45,7 +49,7 @@ export default function Login() {
         
         <Center w='100%' h='100vh'>
 
-            <Box mx="1" maxW='md' p='9' borderWidth='1px' borderRaduis='lg'>
+            <Box width="400px" maxW='400px' p='9' borderWidth='1px' borderRadius='lg'>
 
                 <Heading mb="4" textAlign='center'>Login</Heading>
 
@@ -78,7 +82,7 @@ export default function Login() {
                 {/* Link to register */}
                 <Text fontSize="xlg" align='center' mt='5'>
                     Need an account?{" "}
-                    <Link to={REGISTER} color='blue.800' fontWeight='medium'  >
+                    <Link as={RouterLink} to={REGISTER} color='blue.800' fontWeight='medium'  >
                     Register here
                     </Link>
 

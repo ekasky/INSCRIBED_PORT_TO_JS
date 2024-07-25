@@ -2,7 +2,16 @@ import { useState } from "react";
 import { LOGIN } from "../lib/routes";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 
+const CustomToast = ({ title, description }) => (
+    <Box p={4} bg="red.500" color="white" borderRadius="md" maxWidth="400px">
+        <Box fontWeight="bold">{title}</Box>
+        <Box mt={2} whiteSpace="pre-wrap">
+            {description}
+        </Box>
+    </Box>
+);
 
 export function useRegister() {
 
@@ -79,6 +88,27 @@ export function useRegister() {
                 setLoading(false);
                 return { success: true };
 
+            }
+
+            else if (response.status === 409) {
+                const takenFieldsMessage = data.errors.map(error => error.msg).join('\n');
+
+                toast({
+                    render: () => (
+                        <CustomToast
+                            title="Account not created"
+                            description={`The following fields are already taken:\n\n${takenFieldsMessage}`}
+                        />
+                    ),
+                    position: 'top',
+                    duration: 10000,
+                    isClosable: true,
+                });
+
+                setErrors(data.errors);
+
+                setLoading(false);
+                return { success: false, errors: data.errors };
             }
 
             // If the user failed to register
