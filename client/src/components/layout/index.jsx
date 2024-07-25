@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { LOGIN } from "../../lib/routes";
 import { useAuth } from "../../hooks/useAuth";
+import Navbar from "../navbar/indes";
 
 export default function Layout() {
 
@@ -39,5 +40,16 @@ export default function Layout() {
 
   // If user is authenticated, render the child routes 
   // using Outlet, otherwise show a redirecting message
-  return <>{user ? <Outlet /> : <div>Redirecting...</div>}</>;
+  return (
+
+    <>
+
+      {/* {user ? <Outlet /> : <div>Redirecting...</div>} */}
+
+      <Navbar />
+      <Outlet />
+
+    </>
+    )
+  ;
 }

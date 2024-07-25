@@ -11,12 +11,18 @@ export default function Login() {
     const { login, isLoading } = useLogin();
 
     /* Use the useForm hook from react-hook-forms for input validation */
-    const { register, handleSubmit, formState: { errors }} = useForm();
+    const { register, handleSubmit, reset, formState: { errors }} = useForm();
+
+    console.log(errors);
 
     /* Function to handle login submit */
     const handleLogin = async (data) => {
         
         const success = await login({ username: data.username, password: data.password, redirectTo: DASHBOARD });
+
+        if(success) {
+            reset();
+        }
 
     };
 
