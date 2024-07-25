@@ -12,6 +12,7 @@ import Layout from "../components/layout";
 import DiscoverFeed from "../components/feed/DiscoverFeed";
 import ForYouFeed from "../components/feed/ForYouFeed";
 import YourPosts from "../components/feed/YourPosts";
+import NewPost from "../components/feed/NewPost";
 
 
 export const ROOT     = '/';
@@ -26,6 +27,7 @@ export const SETTINGS = '/protected/settings';
 export const DISCOVER_FEED = '/protected/discover-feed';
 export const FOR_YOU_FEED = '/protected/for-you-feed';
 export const YOUR_POSTS = '/protected/your-posts';
+export const NEW_POST = '/protected/new-post';
 
 
 export const router = createBrowserRouter([
@@ -43,6 +45,7 @@ export const router = createBrowserRouter([
         { path: DISCOVER_FEED, element: <DiscoverFeed /> },
         { path: FOR_YOU_FEED, element: <ForYouFeed /> },
         { path: YOUR_POSTS, element: <YourPosts /> },
+        { path: NEW_POST, element: <NewPost /> },
 
     ]}
 
