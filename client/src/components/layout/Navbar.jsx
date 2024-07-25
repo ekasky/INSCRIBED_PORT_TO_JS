@@ -11,14 +11,14 @@ export default function Navbar() {
 
     return (
 
-        <Box bg={useColorModeValue('blue.900', 'blue.900')} px={4}>
+        <Box bg='green.900' px={4}>
 
             <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
                 
                 <HStack spacing={8} alignItems={'center'}>
                 
                     <Link as={RouterLink} to={DASHBOARD} color='white' >
-                        Home
+                        Dashboard
                     </Link>
 
                 </HStack>
@@ -30,9 +30,9 @@ export default function Navbar() {
                         size="md"
                         variant="filled"
                         color="white"
-                        bg={useColorModeValue('blue.800', 'blue.800')}
+                        bg='green.700'
                         _placeholder={{ color: 'gray.200' }}
-                        _hover={{ bg: 'blue.700' }}
+                        _hover={{ bg: 'green.700' }}
                     />
 
                 </HStack>

@@ -4,6 +4,7 @@ import { LOGIN } from "../../lib/routes";
 import { useAuth } from "../../hooks/useAuth";
 import Navbar from './Navbar';
 import Sidebar from "./Sidebar";
+import { Box, Flex } from "@chakra-ui/react";
 
 export default function Layout() {
 
@@ -45,11 +46,19 @@ export default function Layout() {
 
     <>
 
-      {/* {user ? <Outlet /> : <div>Redirecting...</div>} */}
-
       <Navbar />
-      <Sidebar />
-      <Outlet />
+
+      <Flex>
+
+        <Sidebar />
+        
+        <Box flex='1' bg='green.700' color='white' p='4'>
+          
+          <Outlet />
+          
+        </Box>
+
+      </Flex>
 
     </>
     )
