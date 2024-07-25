@@ -8,7 +8,7 @@ import {
   Divider,
   useColorMode,
 } from '@chakra-ui/react';
-import { FaUserEdit, FaUsers, FaUserFriends } from 'react-icons/fa';
+import { FaUserEdit, FaUsers, FaUserFriends, FaCompass, FaStream, FaPlusCircle, FaClipboardList } from 'react-icons/fa';
 
 const Sidebar = () => {
   const { colorMode } = useColorMode();
@@ -33,6 +33,18 @@ const Sidebar = () => {
         <Divider />
         <Button leftIcon={<FaUserEdit />} colorScheme="teal" variant="solid">
           Edit Settings
+        </Button>
+        <Button leftIcon={<FaCompass />} colorScheme="teal" variant="outline">
+          Discover Feed
+        </Button>
+        <Button leftIcon={<FaStream />} colorScheme="teal" variant="outline">
+          Follower Feed
+        </Button>
+        <Button leftIcon={<FaClipboardList />} colorScheme="teal" variant="outline">
+          Your Posts
+        </Button>
+        <Button leftIcon={<FaPlusCircle />} colorScheme="teal" variant="solid">
+          New Post
         </Button>
         <Button leftIcon={<FaUsers />} colorScheme="teal" variant="outline">
           Followers
