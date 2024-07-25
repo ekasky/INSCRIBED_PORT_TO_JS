@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Center, Box, Heading, FormControl, FormLabel, Input, FormErrorMessage, Button, useToast } from "@chakra-ui/react";
+import { Center, Box, Heading, FormControl, FormLabel, Input, FormErrorMessage, Button, useToast, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, useDisclosure } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { LOGIN } from "../../lib/routes";
 import { useForm } from 'react-hook-form';
@@ -11,6 +11,7 @@ export default function Settings() {
     const navigate = useNavigate();
     const { register, handleSubmit, reset, formState: { errors }} = useForm();
     const toast = useToast();
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     // use the auth state from auth hook to get the user's info
     const { user } = useAuth();
@@ -103,6 +104,9 @@ export default function Settings() {
     };
 
     // Function to handle account deletion
+
+    const [deleteLoading, setDeleteLoading] = useState(false);
+
     const handleDeleteAccount = async () => {
         
     };
@@ -183,9 +187,27 @@ export default function Settings() {
                 </Button>
 
                 {/* Delete Account Button */}
-                <Button mt="4" size='md' w='full' colorScheme='red' variant='outline' onClick={handleDeleteAccount}>
+                <Button mt="4" size='md' w='full' colorScheme='red' variant='outline' onClick={onOpen}>
                     Delete Account
                 </Button>
+
+                {/* Confirmation Modal */}
+                <Modal isOpen={isOpen} onClose={onClose}>
+                    <ModalOverlay />
+                    <ModalContent>
+                        <ModalHeader>Delete Account</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>
+                            Are you sure you want to delete your account? This action cannot be undone.
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button colorScheme='red' mr={3} onClick={handleDeleteAccount} isLoading={deleteLoading}>
+                                Delete
+                            </Button>
+                            <Button variant='ghost' onClick={onClose}>Cancel</Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
 
             </Box>
 
